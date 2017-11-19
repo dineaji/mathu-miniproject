@@ -3,7 +3,6 @@
 (function(global,$,apiconfig){
 	var isLoaded = false;
    	var layout = {
-
 	    eventBinding : function($curEl,callBack,targetElem){
 	        var self = this,
 	            closestElem = typeof targetElem=="undefined" ? null : targetElem;
@@ -16,8 +15,11 @@
 	    },
 	    bindingConfig : function(){                 
 	        var obj= [{
-	            'elem' : '.styles__submit__34ILB',
+	            'elem' : '.styles__submit__34ILB.register',
 	            'func' : 'formRegister',
+	        },{
+	            'elem' : '.styles__submit__34ILB.login',
+	            'func' : 'formLogin',
 	        }]
 	        return obj;
 	    },
@@ -53,26 +55,81 @@
 	            }
 	        });
 	    },
+	    checkAllFields : function(cb,isgetValues){
+	    	var obj = [];
+	    	var isEmptyField = false;
+	    	$(".styles__inputWrapper__38hST input").each(function(indx,item){
+	    		if(isEmptyField) return;
+	    		if($(item).val()=="") {
+	    			if(isgetValues) $(this).next('.styles__label__R5MB3').addClass('icon-close');
+	    			isEmptyField = true;
+	    			cb(false);	
+	    			return;
+	    		}
+	    		obj.push($(item).val());
+	    	})
+	    	if(!isEmptyField){
+	    		if(!$(".styles__input__2g5u8").length || $(".styles__input__2g5u8:checked").length) cb(obj);
+	    		else cb(false);
+	    		
+	    	}
+	    },
 	    formRegister : function(elem,closestElem,evt){
 	    	evt.preventDefault();
+	    	var inputValues;
+	    	this.checkAllFields(function(res){
+	    		if(!res) return
+	    		inputValues = {
+                    name:  res[0],// req.name,
+                    email: res[1], //req.email,
+                    password: res[2], //req.password,
+                    number: res[3], //req.number,
+                    roles : ['user']
+                }
+	    	},true)
 	    	this.signUp = {
 	            name : "SignUpRegistration",
 	            domain : function(){
 	              return apiconfig.apiDomainConfig(this.name)  
-	            },
-	            registerFieldDatas : function(){
-	            	return {
-                        name:  "Dineshs",// req.name,
-                        email: "dineajio@gmail.com", //req.email,
-                        password: "27smss106", //req.password,
-                        number: "8122334577", //req.number,
-                        roles : ['user']
-                    }
 	            }
 	        };
-	        apiconfig.registerFieldDatas = this.signUp.registerFieldDatas();
+	        apiconfig.registerFieldDatas = inputValues;
 	        this.ajaxDataFormat(this.signUp.domain(),apiconfig.apiMethodConfig(this.signUp.name,'signup'),function(res){
-	        	console.log(res);
+	        	if(res=="Existing User"){
+	        		$.notify("It seems, you have already registered. please try to login",'warn')
+	        	} else if(typeof res=="object") {
+	        		console.log("welcome: " +res.Name);
+	        		$.notify("Successfully Registered",'success');
+	        		window.location = "/home";
+	        	}
+	        });
+
+	    },
+	    formLogin : function(elem,closestElem,evt){
+	    	evt.preventDefault();
+	    	var inputValues;
+	    	this.checkAllFields(function(res){
+	    		if(!res) return
+	    		inputValues = {
+                    number: res[0], //req.number,
+                    password: res[1], //req.password,
+                }
+	    	},true)
+	    	this.signUp = {
+	            name : "SignUpRegistration",
+	            domain : function(){
+	              return apiconfig.apiDomainConfig(this.name)  
+	            }
+	        };
+	        apiconfig.loginFieldDatas = inputValues;
+	        this.ajaxDataFormat(this.signUp.domain(),apiconfig.apiMethodConfig(this.signUp.name,'login'),function(res){
+	        	if(res=="not an existing user"){
+	        		$.notify("It seems, you have not registered yet. please register",'warn')
+	        	} else if(typeof res=="object") {
+	        		console.log("welcome: " +res.Name);
+	        		$.notify("Successfully Loggedin",'success');
+	        		window.location = "/home";
+	        	}
 	        });
 
 	    },
@@ -88,7 +145,7 @@
 	globalCF.layout = layout;
 })(this,jQuery,globalCF.config);
 
-$(document).on('change','.styles__inputWrapper__38hST input',function(){
+$(document).on('change','.styles__inputWrapper__3eyQZ input',function(){
 	var isRequiredField = $(this).attr('aria-required');
 	var errorShow = $(this).next('.styles__label__R5MB3');
 	if($(this).val()!=""){
@@ -101,4 +158,11 @@ $(document).on('change','.styles__inputWrapper__38hST input',function(){
 	} else{
 		$(errorShow).removeClass('icon-close')
 	}
+	globalCF.layout.checkAllFields(function(res){
+		if(res){
+			$(".styles__submit__34ILB").removeAttr("disabled");
+		} else{
+			$(".styles__submit__34ILB").attr("disabled",true);
+		}
+	});
 })

@@ -7,7 +7,7 @@ var RegSchema = new Schema({
     Name: String,
     Email: String,
     Pass: String,
-    userId: Number,
+    UserId: String,
     roles: ['user', 'admin'],
     createdAt: Date,
     updatedAt: Date

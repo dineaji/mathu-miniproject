@@ -1302,7 +1302,10 @@ h5 {
   left: 100%;
   top: 100%;
   opacity: 0;
-  pointer-events: none; }
+  pointer-events: none;
+  left: 0;
+  top: 0;
+  }
   .styles__input__2g5u8:checked + .styles__animatedCheckbox__3ejwH {
     transition: background-position 0.5s steps(29, end);
     background-position: right;
@@ -1734,4 +1737,24 @@ footer p{
 
 .styles__container__34oVD:hover>div{
   opacity: 1;
+}
+
+.styles__buttons__tV5DY .logged-in{
+  color:#fff;
+}
+.styles__buttons__tV5DY .logged-in span{
+  color:#edb023;
+  font-weight:bold;
+}
+.styles__buttons__tV5DY a[href="/logout"]{
+  text-decoration: none;
+  color: #3e719f;
+}
+
+.nav--signup.Signup{
+  display: none;
+}
+
+.nav--login.Login{
+  display: none;
 }

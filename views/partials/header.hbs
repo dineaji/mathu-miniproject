@@ -4,16 +4,18 @@
 	</a>
 	<nav class="nav--links styles__links__2gREx">
 		<ul>
-			<!-- <li class="nav--item-main styles__link__2UPsf">
-				<a class="nav--link-main" href="/plans/">Plans &amp; Pricing</a>
-			</li> -->
 			<li class="nav--item-main styles__link__2UPsf">
 				<a class="nav--link-main" href="">About</a>
 			</li>
 		</ul>
 		<div class="nav--button-container styles__buttons__tV5DY">
-			<a class="nav--signup button m-blue" href="/signup/">Sign up</a>
-			<a class="nav--signup button m-yellow" href="/login/">Log in</a>
+			{{#if session}}
+				<a class="logged-in"> Welcome <span>{{session}}</span>,</a>
+				<a href="/logout">Logout</a>
+			{{ else }}
+				<a class="nav--signup button m-blue {{pageTitle}}" href="/signup/">Sign up</a>
+				<a class="nav--login button m-yellow {{pageTitle}}" href="/login/">Log in</a>
+			{{/if}}
 		</div>
 	</nav>
 </header>

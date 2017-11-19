@@ -6,12 +6,12 @@ var hbs = require("hbs");
 var router = express.Router();
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+var session = require('express-session');
 // var session = require('express-session');
 
 var db = require("./model/db");
 var schema = require("./model/schema");
 var app = express();
-
 var corsOptions = {
   origin: 'https://play.hotwheels.com'
   // optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
@@ -21,6 +21,7 @@ app.use(cors())
 app.use(bodyParser.json());
 
 app.use(cookieParser());
+app.use(session({ secret: "sss" }));
 // app.use(session({
 //     secret: "fd34s@!@dfa453f3DF#$D&W",
 //     resave: false,
@@ -52,23 +53,26 @@ app.get('/',function(req,res){
 	res.redirect("/home");
 })
 app.get('/home',function(req,res){
-	console.log("Landing Page");
+	console.log(req.session.uname);
 	res.render('landing',{
-		'pageTitle' : 'Home Page'
+		'pageTitle' : 'Home Page',
+		'session' :  req.session && req.session.uname
 	})
 })
 
 app.get('/signup',function(req,res){
 	console.log("SignUp Page");
 	res.render('signup',{
-		'pageTitle' : 'Sign Up Page'
+		'pageTitle' : 'Signup',
+		'session' :  req.session && req.session.uname
 	})
 })
 
 app.get('/login',function(req,res){
 	console.log("login Page");
 	res.render('login',{
-		'pageTitle' : 'Log In Page'
+		'pageTitle' : 'Login',
+		'session' :  req.session && req.session.uname
 	})
 })
 // After SignUp
@@ -78,26 +82,26 @@ app.post('/signUp',function(req,res,next){
 		Name: req.body.name,
 	    Email: req.body.email,
 	    Pass: req.body.password,
-	    userId: req.body.number,
+	    UserId: req.body.number,
 	    roles : ['user']
 	}
 	// console.log(userData);
-	schema.User.findOne({'Email':userData.Email},function(err, existingUser) {
+	schema.User.findOne({'Email':userData.Email,'UserId': userData.UserId},function(err, existingUser) {
 		if(existingUser){
 			console.log(req.session)
 				// console.log(req.session.users_schema)
 			if(existingUser.roles.indexOf('admin')!=-1){
 				return res.send("you are a admin");
 			}
-			// existingUser.status = "Existing User"
+			existingUser.status = "Existing User"
 			return res.send("Existing User");
 		} else{
 			userData.status = "created User"
 			schema.User.create(userData,function(err,newUser){
 				console.log("new user"+req)
 				if(err) return next(err);
-				req.session.users_schema  = userData.Email;
-				console.log(req.session)
+				req.session.uname  = userData.Name;
+				console.log(req.session.uname)
 				return res.send(userData);
 			})
 		}
@@ -106,31 +110,32 @@ app.post('/signUp',function(req,res,next){
 
 app.post('/login',function(req,res,next){
 	var userData = {
-		userId : req.body.number,
+		UserId : req.body.number,
 		pass : req.body.password
 	}
-	schema.User.findOne({'Email':userData.Email,'Pass':userData.pass}).exec(function(err,existingUser){
+	schema.User.findOne({'UserId':userData.UserId,'Pass':userData.pass}).exec(function(err,existingUser){
 		if(existingUser){
-			req.session.users_schema = userData.Email;
+			req.session.uname = userData.Email;
 			if(existingUser.roles.indexOf('admin')!=-1){
 				return res.send("you are a admin user");
 			}
-			return res.send("welcome "+existingUser.Name )
+			return res.send(existingUser)
 		}
 		else{
-			console.log("u are a not existing user")
-			return res.send(err);
+			return res.send("not an existing user");
 		}
 	})
 })
 
 app.get('/logout', function (req, res) {
-   req.session.users_schema = null;
+	console.log("Log Out Suucessfully")
+   req.session.uname = null;
+   res.redirect("/home");
 });
 
 function isLoggedIn (req, res, next) {
 	// console.log(req.session.users_schema)
-  if (!(req.session && req.session.users_schema)) {
+  if (!(req.session && req.session.uname)) {
     return res.send('Not logged in!');
   }
   next();
