@@ -7,6 +7,7 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var http = require("request");
 // var session = require('express-session');
 
 var db = require("./model/db");
@@ -16,6 +17,8 @@ var corsOptions = {
   origin: 'https://play.hotwheels.com'
   // optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
 }
+
+var feedbackUrl = "http://localhost:3002/feedbackDatas.json";
 // app.use(cors(corsOptions))
 app.use(cors())
 app.use(bodyParser.json());
@@ -75,6 +78,30 @@ app.get('/login',function(req,res){
 		'session' :  req.session && req.session.uname
 	})
 })
+
+app.get('/feedback',function(req,res){
+	console.log("feedback Page");
+	http({
+	    url: feedbackUrl,
+	    json: true
+	}, function (error, response, body) {
+		console.log(error)
+		// console.log(response)
+	    if (!error && response.statusCode === 200) {
+	        // console.log(body) // Print the json response
+			res.render('feedback',{
+				'pageTitle' : 'Feedback',
+				'session' :  req.session && req.session.uname,
+				'feedbackFields' : body
+			})
+	    }
+	    else{
+	    	res.send("please try after some time");
+	    }
+	})
+})
+
+
 // After SignUp
 app.post('/signUp',function(req,res,next){
 	console.log(req.body);
