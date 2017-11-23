@@ -9,6 +9,7 @@ var RegSchema = new Schema({
     Pass: String,
     UserId: String,
     roles: ['user', 'admin'],
+    Institute : String,
     createdAt: Date,
     updatedAt: Date
 }, { collection: 'signupColl' });

@@ -58,7 +58,7 @@
 	    checkAllFields : function(cb,isgetValues){
 	    	var obj = [];
 	    	var isEmptyField = false;
-	    	$(".styles__inputWrapper__38hST input").each(function(indx,item){
+	    	$(".styles__inputWrapper__38hST .styles__input__OX3CX").each(function(indx,item){
 	    		if(isEmptyField) return;
 	    		if($(item).val()=="") {
 	    			if(isgetValues) $(this).next('.styles__label__R5MB3').addClass('icon-close');
@@ -82,8 +82,9 @@
 	    		inputValues = {
                     name:  res[0],// req.name,
                     email: res[1], //req.email,
-                    password: res[2], //req.password,
-                    number: res[3], //req.number,
+                    number: res[2], //req.number,
+                    password: res[3], //req.password,
+                    collegeName : res[4] || '',
                     roles : ['user']
                 }
 	    	},true)
@@ -99,8 +100,10 @@
 	        		$.notify("It seems, you have already registered. please try to login",'warn')
 	        	} else if(typeof res=="object") {
 	        		console.log("welcome: " +res.Name);
-	        		$.notify("Successfully Registered",'success');
-	        		window.location = "/home";
+	        		setTimeout(function(){
+		        		$.notify("Successfully Registered",'success');
+		        		window.location = "/home";
+	        		},500)
 	        	}
 	        });
 
@@ -124,11 +127,13 @@
 	        apiconfig.loginFieldDatas = inputValues;
 	        this.ajaxDataFormat(this.signUp.domain(),apiconfig.apiMethodConfig(this.signUp.name,'login'),function(res){
 	        	if(res=="not an existing user"){
-	        		$.notify("It seems, you have not registered yet. please register",'warn')
+	        		$.notify("Email or password are incorrect",'warn')
 	        	} else if(typeof res=="object") {
 	        		console.log("welcome: " +res.Name);
-	        		$.notify("Successfully Loggedin",'success');
-	        		window.location = "/home";
+	        		setTimeout(function(){
+		        		$.notify("Successfully Loggedin",'success');
+		        		window.location = "/home";
+		        	},500)
 	        	}
 	        });
 

@@ -1034,7 +1034,8 @@ h5 {
 .icon--warning:before,
 .icon--wrench:before,
 .icon--x:before,
-.icon--x-circle:before {
+.icon--x-circle:before,
+.icon--idcard:before {
   display: inline-block;
   font-family: "mlab-icons";
   font-style: normal;
@@ -1048,7 +1049,8 @@ h5 {
   -webkit-font-smoothing: antialiased;
   font-smoothing: antialiased;
 }
-
+.icon--idcard:before {content: "\f19c";}
+.icon--add-card:before { content: "\f100"; }
 .icon--add-card:before { content: "\f100"; }
 .icon--add-person:before { content: "\f101"; }
 .icon--book:before { content: "\f102"; }
@@ -1180,8 +1182,17 @@ h5 {
   font-size: 1rem;
   font-weight: lighter;
   border: none;
-    border-bottom: 1px solid #A5B1BE;
-    border-radius: 0; }
+  border-bottom: 1px solid #A5B1BE;
+  border-radius: 0;
+  font-weight: normal;
+  /* text-transform: uppercase; */
+  letter-spacing: 1.5px;
+  color: #A5B1BE;
+  }
+  .styles__input__OX3CX *{
+     background-color:#0d3c55;
+     color:#FFF;
+  }
   .styles__container__YKjIB:hover .styles__input__OX3CX {
     border-color: #FFFFFF; }
   .styles__input__OX3CX:focus {
@@ -1759,10 +1770,34 @@ footer p{
   display: none;
 }
 
-
+.create-complaints {
+    position: relative;
+    display: block;
+    width: 80%;
+    padding: 0 1em;
+    min-height: 350px;
+    border-radius: 4px;
+    background-color: #0d3c55;
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 80px;
+    /* background: #fff; */
+}
+.create-complaints ul{
+  display: block;
+  padding: 1em;
+}
 .create-complaints li{
   list-style:decimal;
   list-style-position: inside;
+}
+.create-complaints li:after{
+  content:"";
+  display:block;
+  width:95%;
+  margin:2em auto;
+  height:2px;
+  background-color:#838383
 }
 .create-complaints li textarea{
   display:inline-block;
@@ -1780,55 +1815,70 @@ footer p{
 /* :not(:checked) is a filter, so that browsers that don’t support :checked don’t 
    follow these rules. Every browser that supports :checked also supports :not(), so
    it doesn’t make the test unnecessarily selective */
-.rating:not(:checked) > input {
-    position:absolute;
-    top:-9999px;
-    clip:rect(0,0,0,0);
+.smileys-wrapper input[type="radio"] {
+  -webkit-appearance: none;
+  width: 90px;
+  height: 90px;
+  border: none;
+  cursor: pointer;
+  -webkit-transition: border .2s ease;
+  transition: border .2s ease;
+  -webkit-filter: grayscale(100%);
+          filter: grayscale(100%);
+  margin: 0 5px;
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
 }
-
-.rating:not(:checked) > label {
-    float:right;
-    width:1em;
-    padding:0 .1em;
-    overflow:hidden;
-    white-space:nowrap;
-    cursor:pointer;
-    font-size:200%;
-    line-height:1.2;
-    color:#ddd;
-    text-shadow:1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
+.smileys-wrapper input[type="radio"]:hover, .smileys-wrapper input[type="radio"]:checked {
+  -webkit-filter: grayscale(0);
+          filter: grayscale(0);
+          transition: background 1s;
 }
-
-.rating:not(:checked) > label:before {
-    content: '★ ';
+.smileys-wrapper input[type="radio"]:focus {
+  outline: 0;
 }
-
-.rating > input:checked ~ label {
-    color: #f70;
-    text-shadow:1px 1px #c60, 2px 2px #940, .1em .1em .2em rgba(0,0,0,.5);
+.smileys-wrapper input[type="radio"].happy {
+  background: url("/images/rating-3.svg") center;
+  background-size: cover;
 }
-
-.rating:not(:checked) > label:hover,
-.rating:not(:checked) > label:hover ~ label {
-    color: gold;
-    text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+.smileys-wrapper input[type="radio"].neutral {
+  background: url("/images/rating-2.svg") center;
+  background-size: cover;
 }
-
-.rating > input:checked + label:hover,
-.rating > input:checked + label:hover ~ label,
-.rating > input:checked ~ label:hover,
-.rating > input:checked ~ label:hover ~ label,
-.rating > label:hover ~ input:checked ~ label {
-    color: #ea0;
-    text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+.smileys-wrapper input[type="radio"].sad {
+  background: url("/images/rating-1.svg") center;
+  background-size: cover;
 }
-
-.rating > label:active {
-    position:relative;
-    top:2px;
-    left:2px;
+.smileys-wrapper input[type="radio"].happy:checked {
+    /*background: url(/images/rating-happy.png) no-repeat;
+    background-position: -2800px 0;
+    transition: background 1s steps(28);
+    animation: fave-smiley 0 steps(28);*/
 }
-
+.create-complaints textarea,
+  .smileys-wrapper{
+  display: inline-block;
+  vertical-align:middle;
+} 
+.create-complaints textarea{
+  width:200px;
+  width: 0;
+  opacity: 0;
+}
 /* end of Lea's code */
 
 
+
+@keyframes fave-smiley {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: -2800px 0;
+    }
+}
+.two-col{
+  width: 50%;
+  float: left;
+}

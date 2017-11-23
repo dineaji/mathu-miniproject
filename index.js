@@ -85,13 +85,14 @@ app.get('/feedback',function(req,res){
 	    url: feedbackUrl,
 	    json: true
 	}, function (error, response, body) {
-		console.log(error)
+		console.log(req.session && req.session.cname)
 		// console.log(response)
 	    if (!error && response.statusCode === 200) {
 	        // console.log(body) // Print the json response
 			res.render('feedback',{
 				'pageTitle' : 'Feedback',
 				'session' :  req.session && req.session.uname,
+				'collegeName' :  req.session && req.session.cname,
 				'feedbackFields' : body
 			})
 	    }
@@ -110,6 +111,7 @@ app.post('/signUp',function(req,res,next){
 	    Email: req.body.email,
 	    Pass: req.body.password,
 	    UserId: req.body.number,
+	    Institute : req.body.collegeName,
 	    roles : ['user']
 	}
 	// console.log(userData);
@@ -128,6 +130,7 @@ app.post('/signUp',function(req,res,next){
 				console.log("new user"+req)
 				if(err) return next(err);
 				req.session.uname  = userData.Name;
+				req.session.cname = userData.Institute;
 				console.log(req.session.uname)
 				return res.send(userData);
 			})
@@ -142,7 +145,8 @@ app.post('/login',function(req,res,next){
 	}
 	schema.User.findOne({'UserId':userData.UserId,'Pass':userData.pass}).exec(function(err,existingUser){
 		if(existingUser){
-			req.session.uname = userData.Email;
+			req.session.uname = existingUser.Name;
+			req.session.cname = existingUser.Institute;
 			if(existingUser.roles.indexOf('admin')!=-1){
 				return res.send("you are a admin user");
 			}
