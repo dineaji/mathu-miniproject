@@ -1,0 +1,25 @@
+[{
+	"name": "TEACHING",
+	"isRating" : true,
+	"isComments" : true
+},{
+	"name": "INFRASTRUCTURE",
+	"isRating" : true,
+	"isComments" : true
+},{
+	"name": "CATERING / CANTEEN",
+	"isRating" : true,
+	"isComments" : true
+},{
+	"name": "TRANSPORT",
+	"isRating" : true,
+	"isComments" : true
+},{
+	"name": "CLEANING",
+	"isRating" : true,
+	"isComments" : true
+},{
+	"name": "LIBRARY",
+	"isRating" : true,
+	"isComments" : true
+}]

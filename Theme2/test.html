@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test API Service</title>
+</head>
+<body>
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+
+  <script type="text/javascript">
+    /* ----------------------------------------------- SignUp ------------------------------------------------ */
+  	$.ajax({
+            type: "post",
+            url: "http://localhost:3002/signUp",
+            contentType : "application/json",
+            data : JSON.stringify({
+              'name':'dinesh',
+              'email':'dineajiosds@gmail.com',
+              'password':'ghgh',
+              'number':'81223346576'
+            }),
+            success: function(response) {
+                console.log(response)
+            },
+            error: function(errrLog) {
+                console.log(errrLog)
+            }
+        });
+
+    /* ----------------------------------------------- LogIn ------------------------------------------------ */
+    // $.ajax({
+    //         type: "post",
+    //         url: "http://localhost:3000/login",
+    //         contentType : "application/json",
+    //         data : JSON.stringify({'email':'dineajiosds@gmail.com','password':'ghgh'}),
+    //         success: function(response) {
+    //             console.log(response)
+    //         },
+    //         error: function(errrLog) {
+    //             console.log(errrLog)
+    //         }
+    //     });
+
+   // $.ajax({
+   //          type: "get",
+   //          url: "http://localhost:3000/isLoggedIn",
+   //          contentType : "application/json",
+   //          // data : JSON.stringify({'name':'dinesh','email':'dineajiosd@gmail.com','password':'ghgh','number':'8122334576'}),
+   //          success: function(response) {
+   //              console.log(response)
+   //          },
+   //          error: function(errrLog) {
+   //              console.log(errrLog)
+   //          }
+   //      });
+  </script>
+</body>
+</html>
