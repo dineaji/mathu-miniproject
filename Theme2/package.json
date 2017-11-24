@@ -1,0 +1,24 @@
+{
+  "name": "complaintforum",
+  "version": "0.0.1",
+  "description": "Mattel DIG Backend Services for HotWheelsEndlessRacer",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dineaji/mathu-miniproject.git"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "express": "4.13.3",
+    "express-session": "^1.15.6",
+    "hbs": "^4.0.1",
+    "mongoose": "^4.13.1",
+    "mongoose-role": "^2.0.1",
+    "request": "^2.83.0"
+  }
+}
