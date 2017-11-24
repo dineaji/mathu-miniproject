@@ -9,39 +9,71 @@
 	  	 	{{#if collegeName}}
 	  			<div class="collg-name">College : {{collegeName}}</div>
 	  		{{/if}}
-	  		<div class="two-col">
-		  	 	<div class="panel-group" id="accordion">
-			  	 {{#each feedbackFields}}
-		  	 		<div class="panel panel-default">
-		  	 			<div class="panel-heading">
-	                        <h4 class="panel-title">
-	                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{@index}}" aria-expanded="false">
-									{{this.name}}
-								</a>
-	                        </h4>
-	                    </div>
-	                    <div id="collapse{{@index}}" class="panel-collapse collapse in">
-	                        <div class="panel-body">
-	                        	<fieldset class="smileys-wrapper">
-							        <input type="radio" id="star3" name="smiley" value="sad" class="sad" />
-							        <input type="radio" id="star2" name="smiley" value="neutral" class="neutral" />
-							        <input type="radio" id="star1" name="smiley" value="happy" class="happy" />
-							    </fieldset>
-							    <textarea></textarea>
-	                        </div>
-	                    </div>
-	                </div>
-			  	 {{/each}}
-		  	 	</div>
-		  	 	<input type="submit" name="" value="submit">
-	  	 	</div>
-	  	 	<div class="two-col">
-	  	 		<span>
-	  	 			Oops! It looks like you don't have raised ant ticket here.
-	  	 		</span>
-	  	 	</div>
+	  		<div class="complaints-list dropdown-container">
+	  			{{#ifvalue pageTitle equals='createissue'}}
+	  				<button class="button add-new-button">Add New</button>
+		  			<table class="table table-sm table-bordered">
+					  <thead class="thead-inverse">
+					    <tr>
+					      <th scope="column">Category <span id="ts-resoure-heading" class="invisible">- <span></span></span></th>
+					      <th scope="column">Queries List <span id="ts-resoure-heading" class="invisible">- <span></span></span></th>
+					      <th scope="column">Enter Your Queries <span id="ts-resoure-heading" class="invisible">- <span></span></span></th>
+					      <th scope="column">Status <span id="ts-resoure-heading" class="invisible">- <span></span></span></th>
+					    </tr>
+					  </thead>
+					  <tbody class="allocation-table-container active" id="new-complaints-container">
+					  </tbody>
+					</table>
+					<input type="submit" class="submit-ticket" name="">
+				{{/ifvalue}}
+				{{#ifvalue pageTitle equals='myissues'}}
+					<table>
+						<tr>
+							<td>My Issues</td>
+						</tr>
+					</table>
+				{{/ifvalue}}
+				{{#ifvalue pageTitle equals='Feedback'}}
+					<a href="">Create Issue</a>
+					<a href="">My Issues</a>
+				{{/ifvalue}}
+	  		</div>
 	  	</div>
 	  </div>
+
+
+
+
+	  <script type="text/template" id="new-complaints-template">
+		  	<tr>
+		  		<td class="dropdown-list">
+				  	<select class="custom-select dropdown">
+						<option selected>List Of Categories</option>
+						<% _.each(feedbackFields,function(item){ %>
+							<option><%= item %></option>
+						<% }) %>
+					</select>
+				</td>
+				<td class="dropdown-list">
+					<select class="custom-select dropdown" disabled="">
+						<option selected>select your queries</option>
+					</select>
+				</td>
+				<td class="text-list">
+					<input type="text" name="" placeholder="Type tour queries" disabled="">
+				</td>
+				<td class="dropdown-list">
+					<select class="custom-select dropdown" disabled="">
+						<option selected>NEW</option>
+						<option>Closed</option>
+						<option>Re-Open</option>
+					</select>
+				</td>
+			</tr>
+	  </script>
+		<script>
+			var pageName = "{{pageTitle}}"
+		</script>
 	  {{>footer}}
 	</div>
 </body>

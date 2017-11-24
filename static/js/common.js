@@ -20,6 +20,12 @@
 	        },{
 	            'elem' : '.styles__submit__34ILB.login',
 	            'func' : 'formLogin',
+	        },{
+	        	'elem' : '.add-new-button',
+	        	'func' : 'addNewComplaint'
+	        },{
+	        	'elem' : '.submit-ticket',
+	        	'func' : 'submitComplaint'
 	        }]
 	        return obj;
 	    },
@@ -136,12 +142,61 @@
 		        	},500)
 	        	}
 	        });
-
+	    },
+	    submitComplaint : function(evt){
+	    	var inputValues ={
+	    		category : "Transport",
+                subCategory : "xx",
+                enteredQuery : "xxx",
+                status : "new"
+            }
+            this.feedback = {
+	            name : "feedbackData",
+	            domain : function(){
+	              return apiconfig.apiDomainConfig(this.name)  
+	            }
+	        };
+            apiconfig.newComplainDatas = inputValues;
+	        this.ajaxDataFormat(this.feedback.domain(),apiconfig.apiMethodConfig(this.feedback.name,'newComplaint'),function(res){
+	        	console.log(res)
+	        });
+	    },
+	    addNewComplaint : function(evt){
+	    	var self = this;
+	    	self.fillComplaintDropdown();
+	    },
+	    fillComplaintDropdown : function(res){
+	    	res = res==undefined ? this.feedbackCategoryDatas : res;
+	    	var templateId = $("#new-complaints-template").html();
+	    	var container = $("#new-complaints-container");
+	    	var template = _.template(templateId);
+	    	var sub_key = [];
+	    	Object.keys(res).forEach(function(key) {
+			 	 sub_key.push(key);
+			 })
+			 $(container).append(template({
+			 	feedbackFields :sub_key
+			 }));
+	    },
+	    getFeedbackDatas : function(){
+	    	var self = this;
+	    	
+	    	this.feedback = {
+	    		name: "feedbackData",
+	    		domain : function(){
+	              return apiconfig.apiDomainConfig(this.name)  
+	            }
+	    	}
+	    	this.ajaxDataFormat(this.feedback.domain(),apiconfig.apiMethodConfig(this.feedback.name,'getfeedbackJson'),function(res){
+	    		self.fillComplaintDropdown(res);
+	    		self.feedbackCategoryDatas = res;
+	    	})
 	    },
 	    init : function(){
-            if(typeof $!="function") return;
+            if(typeof $!="function" || typeof _!="function") return;
             var self = this;
-            this.bindLooping(this.bindingConfig());     
+            this.bindLooping(this.bindingConfig());   
+            if(typeof pageName !="undefined" && pageName.toLowerCase() =="createissue") this.getFeedbackDatas()
             isLoaded = true;
         }
 	}
@@ -171,3 +226,25 @@ $(document).on('change','.styles__inputWrapper__3eyQZ input',function(){
 		}
 	});
 })
+
+$(".dropdown-container").on("change",".custom-select.dropdown",function(evt){
+	var $curElem = $(this),
+		selectedVal = $curElem.val();
+		var selectedArrays = globalCF.layout.feedbackCategoryDatas[selectedVal];
+		var parentElem = $(this).closest('td');
+		var nextSelectedElem = parentElem.next(".dropdown-list").find(".custom-select.dropdown");
+	if(selectedArrays!=undefined && nextSelectedElem.length){
+		nextSelectedElem.html('');
+		nextSelectedElem.append("<option selected>select your queries</option>")
+		for(var i=0;i<selectedArrays.length;i++){
+			nextSelectedElem.append('<option>'+selectedArrays[i]+'</option>');
+		}
+		nextSelectedElem.removeAttr('disabled');
+	}
+	else if(parentElem.next(".text-list").length){
+		parentElem.next(".text-list").find("input").removeAttr("disabled");
+	}
+
+})
+
+// self.fillComplaintDropdown(res);

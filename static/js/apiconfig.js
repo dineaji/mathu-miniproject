@@ -7,6 +7,7 @@
     apiDomainConfig : function(domainName){
         var obj = {
             SignUpRegistration :  "http://localhost:3002",
+            feedbackData :  "http://localhost:3002",
         }
         return domainName ? obj[domainName] : obj;
     },
@@ -38,6 +39,20 @@
                     "params" : ""
                  }
             },
+            feedbackData: {
+                getfeedbackJson : {
+                    "name" : "/complaintCategory.json",
+                    "body" : "",
+                    "type" : "get",
+                    "params" : ""
+                },
+                newComplaint : {
+                    "name" : "/submitNewTicket",
+                    "body" : this.newComplainDatas,
+                    "type" : "POST",
+                    "params" : ""
+                }
+            }
         }
         return domainName&&methodName == undefined ? obj[domainName] : domainName&&methodName ? obj[domainName][methodName] : "";
     }

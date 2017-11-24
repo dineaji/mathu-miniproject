@@ -469,6 +469,10 @@ h5 {
 }
 
 @media screen and (min-width: 1004px) {
+  .nav:before,
+    .nav:after {
+      content:none;
+  }
   .nav {
     padding-top: 0;
     padding-bottom: 0;

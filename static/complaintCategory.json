@@ -1,0 +1,8 @@
+{
+	"Teaching":["Others"],
+	"Infrastructure":["Others"],
+	"Catering/Canteen" : ["Food vendor misbehavior","Food related queries/issues","Upkeep, Hygiene, Pest","Others"],
+	"Transport" : ["Bus pass request","Bus speeding / Rash Driving","Office Shuttle delay","Transport staff behavior issues","Transport accidents/ near misses","Others"],
+	"Cleaning" : ["Others"],
+	"Library" : ["Heating/ventilation issues form","report noise issues"]
+}
