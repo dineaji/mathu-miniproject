@@ -40,6 +40,7 @@ var PORT = process.env.PORT || 3002;
 
 // partial view
 hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
+hbs.registerHelper("inc", function(value, options){return parseInt(value) + 1;});
 hbs.registerPartials(__dirname+'/views/partials');
 
 // const publicPath = path.join(__dirname, '../views');

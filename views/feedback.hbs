@@ -44,7 +44,7 @@
 							<tbody>
 								{{#each collections}}
 									<tr>
-										<td>{{@index}}</td>
+										<td>{{inc @index}}</td>
 										<td>{{this._id}}</td>
 										<td>{{dateFormat this.createdAt "MM/d"}}</td>
 										<td>{{this.Category}}</td>
