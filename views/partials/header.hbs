@@ -3,17 +3,22 @@
 		<img src="/images/logo.png" alt="university-logo" class="nav--logo">
 	</a>
 	<nav class="nav--links styles__links__2gREx">
-		<ul>
-			<li class="nav--item-main styles__link__2UPsf">
-				<a class="nav--link-main" href="">About</a>
-			</li>
-			<li class="nav--item-main styles__link__2UPsf">
-				<a class="nav--link-main" href="/feedback">Feedback</a>
-			</li>
-		</ul>
+		{{#ifvalue roleName equals="admin"}}
+			<!-- <span>hidden</span>-->
+		{{else}}
+			<ul>
+				<li class="nav--item-main styles__link__2UPsf">
+					<a class="nav--link-main" href="">About</a>
+				</li>
+				<li class="nav--item-main styles__link__2UPsf">
+					<a class="nav--link-main" href="/feedback">Feedback</a>
+				</li>
+			</ul>
+		{{/ifvalue}}
 		<div class="nav--button-container styles__buttons__tV5DY">
 			{{#if session}}
-				<a class="logged-in"> Welcome <span>{{session}}</span>,</a>
+				<a class="logged-in"> Welcome <span>{{session}}</span>({{roleName}}),</a>
+				<span class="role-name"></span>
 				<a href="/logout">Logout</a>
 			{{ else }}
 				<a class="nav--signup button m-blue {{pageTitle}}" href="/signup/">Sign up</a>

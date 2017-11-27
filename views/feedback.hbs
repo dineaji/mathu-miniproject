@@ -8,17 +8,26 @@
 	  	 <div class="create-complaints">
 		  	<div class="tab-list">
 		  	 	<ul>
+		  		{{#ifvalue roleName equals="admin"}}
+		  	 	<li class="track-request {{pageTitle}}">
+	  	 			<a href="/feedback/myissues">Raised Issues</a>
+	  	 		</li>
+		  	 	{{else}}
 		  	 		<li class="raise-request {{pageTitle}}">
 		  	 			<a href="/feedback/createissue">Raise Request</a>
 		  	 		</li>
 		  	 		<li class="track-request {{pageTitle}}">
 		  	 			<a href="/feedback/myissues">My Issues</a>
 		  	 		</li>
+		  	 	{{/ifvalue}}
 		  	 	</ul>
 		  	 </div>
 	  		<div class="complaints-list dropdown-container">
 		  	 	{{#if collegeName}}
-		  			<div class="collg-name">College : <span>{{collegeName}}</span></div>
+			  	 	{{#ifvalue roleName equals="admin"}}
+			  	 	{{else}}
+			  			<div class="collg-name">College : <span>{{collegeName}}</span></div>
+			  	 	{{/ifvalue}}
 		  		{{/if}}
 	  			{{#ifvalue pageTitle equals='createissue'}}
 	  			<form>
@@ -34,6 +43,9 @@
 							<thead class="thead-inverse">
 								<tr>
 									<th rowspan="1" colspan="1">#</th>
+									{{#ifvalue roleName equals="admin"}}
+									<th>College Name</th>
+									{{/ifvalue}}
 									<th>Request ID</th>
 									<th>Request Date</th>
 									<th>Category</th>
@@ -45,11 +57,26 @@
 								{{#each collections}}
 									<tr>
 										<td>{{inc @index}}</td>
-										<td>{{this._id}}</td>
+										{{#ifvalue ../roleName equals="admin"}}
+											<td>{{this.Institute}}</td>
+										{{/ifvalue}}
+										<td><a href="">{{this._id}}</a></td>
 										<td>{{dateFormat this.createdAt "MM/d"}}</td>
 										<td>{{this.Category}}</td>
 										<td>{{this.EnteredQuery}}</td>
-										<td>{{this.Status}}</td>
+										<td>
+										{{#ifvalue ../roleName equals="admin"}}
+											<select class="custom-select dropdown">
+												<option selected>{{this.Status}}</option>
+												<option>Closed</option>
+												<option>Re-Open</option>
+											</select>
+										{{else}}
+											<select class="custom-select dropdown" disabled="">
+												<option selected>{{this.Status}}</option>
+											</select>
+										{{/ifvalue}}
+										</td>
 									</tr>
 								{{/each}}
 							</tbody>
