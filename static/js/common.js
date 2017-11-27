@@ -143,12 +143,32 @@
 	        	}
 	        });
 	    },
+	    getSubmittedComplaint : function(){
+            this.feedback = {
+	            name : "feedbackData",
+	            domain : function(){
+	              return apiconfig.apiDomainConfig(this.name)  
+	            }
+	        };
+            // apiconfig.newComplainDatas = inputValues;
+	        this.ajaxDataFormat(this.feedback.domain(),apiconfig.apiMethodConfig(this.feedback.name,'getComplaint'),function(res){
+	        	console.log(res)
+	        });
+	    },
 	    submitComplaint : function(evt){
+	    	var arr = [];
+	    	if($(".ticket-field").is("[disabled]")){
+	    		$.notify("Please fill your input..", 'warn');
+	    		return;
+	    	}
+	    	$(".ticket-field").each(function(indx,item){
+	    		arr.push($(item).val())
+	    	})
 	    	var inputValues ={
-	    		category : "Transport",
-                subCategory : "xx",
-                enteredQuery : "xxx",
-                status : "new"
+	    		category : arr[0],
+                subCategory : arr[1],
+                enteredQuery : arr[2] || 'No Text',
+                status : arr[3] || 'NEW'
             }
             this.feedback = {
 	            name : "feedbackData",
@@ -159,6 +179,10 @@
             apiconfig.newComplainDatas = inputValues;
 	        this.ajaxDataFormat(this.feedback.domain(),apiconfig.apiMethodConfig(this.feedback.name,'newComplaint'),function(res){
 	        	console.log(res)
+	        	if(res=="Successfully Posted"){
+	        		$.notify("Successfully Created", 'Success');
+	        		$("form")[0].reset();
+	        	}
 	        });
 	    },
 	    addNewComplaint : function(evt){
@@ -196,7 +220,10 @@
             if(typeof $!="function" || typeof _!="function") return;
             var self = this;
             this.bindLooping(this.bindingConfig());   
-            if(typeof pageName !="undefined" && pageName.toLowerCase() =="createissue") this.getFeedbackDatas()
+            if(typeof pageName !="undefined" && pageName.toLowerCase() =="createissue"){
+            	this.getFeedbackDatas();
+            	this.getSubmittedComplaint()	;
+            } 
             isLoaded = true;
         }
 	}
@@ -231,7 +258,7 @@ $(".dropdown-container").on("change",".custom-select.dropdown",function(evt){
 	var $curElem = $(this),
 		selectedVal = $curElem.val();
 		var selectedArrays = globalCF.layout.feedbackCategoryDatas[selectedVal];
-		var parentElem = $(this).closest('td');
+		var parentElem = $(this).closest('li');
 		var nextSelectedElem = parentElem.next(".dropdown-list").find(".custom-select.dropdown");
 	if(selectedArrays!=undefined && nextSelectedElem.length){
 		nextSelectedElem.html('');
@@ -242,7 +269,7 @@ $(".dropdown-container").on("change",".custom-select.dropdown",function(evt){
 		nextSelectedElem.removeAttr('disabled');
 	}
 	else if(parentElem.next(".text-list").length){
-		parentElem.next(".text-list").find("input").removeAttr("disabled");
+		parentElem.next(".text-list").find("textarea").removeAttr("disabled");
 	}
 
 })

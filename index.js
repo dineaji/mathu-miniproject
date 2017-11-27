@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var http = require("request");
+var dateFormat = require('dateformat');
 // var session = require('express-session');
 
 var db = require("./model/db");
@@ -38,6 +39,7 @@ app.use(session({ secret: "sss" }));
 var PORT = process.env.PORT || 3002;
 
 // partial view
+hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
 hbs.registerPartials(__dirname+'/views/partials');
 
 // const publicPath = path.join(__dirname, '../views');
@@ -119,33 +121,42 @@ app.get('/feedback/myissues',function(req,res){
 		res.redirect("/login");
 		return;
 	}
-	console.log("feedback Page");
-	res.render('feedback',{
-		'pageTitle' : 'myissues',
-		'session' :  req.session && req.session.uname,
-		'collegeName' :  req.session && req.session.cname
-	})
+	var userData = {
+	    consumerId : req.session.consumerId
+	}
+	var resDatas;
+	if(req.session.isAdmin){
+		schema.Complaint.find({}, function(err, datas) {
+		    if (!err){ 
+		        // console.log(datas);
+		        resDatas = datas;
+		        res.render('feedback',{
+					'pageTitle' : 'myissues',
+					'session' :  req.session && req.session.uname,
+					'collegeName' :  req.session && req.session.cname,
+					'collections' : resDatas
+				})
+		        // response.send(datas)
+		    } else {throw err;}
+		});
+	}
+	else{
+		schema.Complaint.find({'consumerId':userData.consumerId}).exec(function(err,datas){
+			console.log("1st trigger:"+datas);
+			resDatas = datas;
+			// response.send(datas)
+			res.render('feedback',{
+				'pageTitle' : 'myissues',
+				'session' :  req.session && req.session.uname,
+				'collegeName' :  req.session && req.session.cname,
+				'collections' : resDatas
+			})
+		})
+		
+	}
+	console.log("2nd trigger:"+resDatas);
+	
 })
-
-// app.get('/feedback',function(req,res){
-// 	console.log("feedback Page");
-// 	http({
-// 	    url: categoryUrl,
-// 	    json: true
-// 	}, function (error, response, body) {
-// 	    if (!error && response.statusCode === 200) {
-// 			res.render('feedback',{
-// 				'pageTitle' : 'Feedback',
-// 				'session' :  req.session && req.session.uname,
-// 				'collegeName' :  req.session && req.session.cname,
-// 			})
-// 	    }
-// 	    else{
-// 	    	res.send("please try after some time");
-// 	    }
-// 	})
-// })
-
 
 // After SignUp
 app.post('/signUp',function(req,res,next){
@@ -156,6 +167,7 @@ app.post('/signUp',function(req,res,next){
 	    Pass: req.body.password,
 	    UserId: req.body.number,
 	    Institute : req.body.collegeName,
+	    createdAt : dateFormat(new Date(),"shortDate"),
 	    roles : ['user']
 	}
 	// console.log(userData);
@@ -175,7 +187,8 @@ app.post('/signUp',function(req,res,next){
 				if(err) return next(err);
 				req.session.uname  = userData.Name;
 				req.session.cname = userData.Institute;
-				// console.log(req.session.uname)
+				req.session.consumerId = newUser._id
+				console.log(newUser)
 				return res.send(newUser);
 				console.log(newUser)
 			})
@@ -192,9 +205,13 @@ app.post('/login',function(req,res,next){
 		if(existingUser){
 			req.session.uname = existingUser.Name;
 			req.session.cname = existingUser.Institute;
+			req.session.consumerId = existingUser._id;
+			req.session.isAdmin = false;
 			if(existingUser.roles.indexOf('admin')!=-1){
 				return res.send("you are a admin user");
+				req.session.isAdmin = true;
 			}
+			console.log(existingUser)
 			return res.send(existingUser)
 		}
 		else{
@@ -211,13 +228,13 @@ app.get('/logout', function (req, res) {
 
 
 app.post('/submitNewTicket',function(req,res,next){
-	// console.log(req.body);
+	console.log(req.query.id);
 	var userData = {
 		Category: req.body.category,
 	    SubCategory: req.body.subCategory,
 	    EnteredQuery: req.body.enteredQuery,
 	    Status: req.body.status,
-	    consumerId : req.body.consumerId
+	    consumerId : req.session.consumerId || req.body.consumerId
 	}
 	console.log(userData)
 	schema.Complaint.create(userData,function(err){
@@ -226,6 +243,34 @@ app.post('/submitNewTicket',function(req,res,next){
 		return res.send("Successfully Posted");
 	})
 })
+
+app.get('/getSubmittedTicket',function(req,response,next){
+		// console.log("getSubmittedTicket fn triggered")
+		console.log(req.query.id);
+		var userData = {
+		    consumerId : req.session.consumerId || req.query.id
+		}
+		var resDatas;
+		if(req.session.isAdmin){
+			schema.Complaint.find({}, function(err, datas) {
+			    if (!err){ 
+			        console.log(datas);
+			        resDatas = datas;
+			        // response.send(datas)
+			    } else {throw err;}
+			});
+		}
+		else{
+			schema.Complaint.find({'consumerId':userData.consumerId}).exec(function(err,datas){
+				console.log(datas);
+				resDatas = datas;
+				// response.send(datas)
+			})
+			
+		}
+		
+	})
+
 
 app.listen(PORT, onListen);
 

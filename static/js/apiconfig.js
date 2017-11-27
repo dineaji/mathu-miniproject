@@ -51,6 +51,12 @@
                     "body" : this.newComplainDatas,
                     "type" : "POST",
                     "params" : ""
+                },
+                getComplaint : {
+                    "name" : "/getSubmittedTicket?hai",
+                    "body" : "",
+                    "type" : "get",
+                    "params" : ""
                 }
             }
         }

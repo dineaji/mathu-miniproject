@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var dateFormat = require('dateformat');
 
 var Schema = mongoose.Schema;
 
@@ -27,8 +28,8 @@ var CompSchema = new Schema({
 
 // set created and updated date before save
 RegSchema.pre('save', function(next) {
-	console.log("Saved")
-    var currentDate = new Date();
+    var currentDate = dateFormat(new Date(),"shortDate");
+	console.log("Saved"+currentDate)
     this.updatedAt = currentDate;
     if (!this.createdAt) {
         this.createdAt = currentDate;
@@ -37,8 +38,9 @@ RegSchema.pre('save', function(next) {
 });
 
 CompSchema.pre('save', function(next) {
-    console.log("Saved")
-    var currentDate = new Date();
+    console.log("Saved");
+    
+    var currentDate = dateFormat(new Date(),"shortDate");
     this.updatedAt = currentDate;
     if (!this.createdAt) {
         this.createdAt = currentDate;

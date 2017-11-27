@@ -30,11 +30,14 @@ body {
   /* -webkit-text-size-adjust: auto; */
   background-color: #262b30;
   color: white;
+  background-color: #fffefa;
+  padding: 0 !important;
 }
 
 ul {
   list-style: none;
   padding-left: 0;
+  margin-bottom: 0;
 }
 
 table {
@@ -483,6 +486,7 @@ h5 {
     position: absolute;
     width: 100%;
     top: 0;
+    background: #036088;
   }
 
   .nav--logo {
@@ -1375,7 +1379,7 @@ h5 {
     -ms-flex-align: center;
     margin-top: 6em;
     align-items: center;
-    /*     background-color: #282828; */
+    background-color: inherit;
     padding-top: 1rem;
     padding-bottom: 1rem;
 }
@@ -1396,7 +1400,7 @@ h5 {
     max-width: 750px;
     min-height: 350px;
     border-radius: 4px;
-    background-color: #0d3c55;
+    background-color: #036088;
     margin: auto;
     margin-top: 50px;
     margin-bottom: 80px;
@@ -1435,11 +1439,10 @@ h5 {
     justify-content: space-between;
     -ms-flex-negative: 0;
     flex-shrink: 0;
-    background-color: #0d3c55;
+    background-color: #036088;
     width: 300px;
     border-radius: 4px 0 0 4px;
     position:relative;
-    
 }
 .styles__leftBar__O8zGV:after{
   content:"";
@@ -1777,15 +1780,16 @@ footer p{
 .create-complaints {
     position: relative;
     display: block;
-    width: 80%;
+    width: 100%;
     padding: 0 1em;
     min-height: 350px;
     border-radius: 4px;
-    background-color: #0d3c55;
+    /* background-color: #0d3c55; */
     margin: auto;
-    margin-top: 50px;
+    margin-top: 0;
     margin-bottom: 80px;
     /* background: #fff; */
+    max-width: 1075px;
 }
 .create-complaints ul{
   display: block;
@@ -1809,7 +1813,17 @@ footer p{
 }
 .create-complaints li>label{
   display:inline-block;
-  min-width: 176px;
+  min-width: 178px;
+  color: #4d4d4d;
+  /* outline: 2px solid; */
+  position: relative;
+  padding-right: 20px;
+  font-weight: bold;
+}
+.create-complaints li>label span{
+  color: #167db8;
+  position: absolute;
+  right: 20px;
 }
 .rating {
     display: inline-block;
@@ -1885,4 +1899,119 @@ footer p{
 .two-col{
   width: 50%;
   float: left;
+}
+
+
+.tab-list{
+
+border-bottom: 5px solid #73ccf4;
+
+display: block;
+
+width: 100%;
+
+/* overflow: hidden; */
+}
+.tab-list ul{
+  padding: 0;
+}
+.tab-list li{
+  display: inline-block;
+  padding: 1em;
+  position: relative;
+  margin: 0 1em 0 0;
+  text-transform:uppercase;
+  font-weight:bold;
+  color:#7a7979
+ }
+ .tab-list li a{
+   color:inherit;
+ }
+.tab-list li:after{
+  position:absolute;
+  left: 0;
+  right: 0;
+  bottom: -5px;
+  margin: 0;
+  height: 5px;
+  background-color: inherit;
+}
+.tab-list li.raise-request.createissue:after,
+  .tab-list li.track-request.myissues:after{
+  background-color:#00728f;
+}
+.tab-list li.track-request.myissues,
+.tab-list li.raise-request.createissue{
+  color:#00728f;
+}
+.collg-name{
+  color:#3899c0;
+  text-transform:uppercase;
+  margin:2em 0 1em;
+}
+.collg-name span{
+  color:#00728f;
+  font-weight:bold;
+}
+#new-complaints-container,
+  #mycomplaints-container{
+  color: #4d4d4d;
+  padding-left:0;
+  border: 1px solid rgb(204, 204, 204);
+  padding: 0;
+  border-radius: 5px;
+  margin: 2em 0;
+}
+#mycomplaints-container.empty-message{
+    width: 100%;
+    min-height: 300px;
+    text-align: center;
+}
+#new-complaints-container li:first-child{
+  margin-top:0;
+}
+#new-complaints-container li{
+  list-style:none;
+  margin:1em 0;
+  padding: 1em;
+}
+#new-complaints-container li:last-child{
+  margin-bottom:0;
+}
+#new-complaints-container li:nth-child(even){
+   background-color: #f5f5f5;
+}
+#new-complaints-container li:after{
+  content:none;
+}
+#new-complaints-container li div{
+  display:inline-block;
+  padding-left: 20px;
+}
+#new-complaints-container li textarea{
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    width: 200px;
+    opacity: 1;
+    background: #fff;
+    color: #4d4d4d;
+}
+.complaints-list form>input{
+    float:right;
+    margin-left:1em;
+    cursor: pointer;
+    display: inline-block;
+    height: 40px;
+    width: 105px;
+    border:none;
+    border-radius:5px;
+    text-transform:uppercase;
+    font-size:16px;
+    font-weight:bold;
+    color: #FFFEFA;
+    background-color: #999;
+}
+.complaints-list form>input.submit-ticket{
+    background-color: #31ABED;
 }
