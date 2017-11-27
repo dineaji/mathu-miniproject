@@ -21,6 +21,7 @@ var CompSchema = new Schema({
     EnteredQuery: String,
     Status: String,
     consumerId : String,
+    Institute : String,
     createdAt: Date,
     updatedAt: Date
 }, { collection: 'complaintColl' });

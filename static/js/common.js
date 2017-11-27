@@ -134,7 +134,7 @@
 	        this.ajaxDataFormat(this.signUp.domain(),apiconfig.apiMethodConfig(this.signUp.name,'login'),function(res){
 	        	if(res=="not an existing user"){
 	        		$.notify("Email or password are incorrect",'warn')
-	        	} else if(typeof res=="object") {
+	        	} else if(typeof res=="object" || res=="you are a admin user") {
 	        		console.log("welcome: " +res.Name);
 	        		setTimeout(function(){
 		        		$.notify("Successfully Loggedin",'success');

@@ -27,14 +27,6 @@ app.use(bodyParser.json());
 
 app.use(cookieParser());
 app.use(session({ secret: "sss" }));
-// app.use(session({
-//     secret: "fd34s@!@dfa453f3DF#$D&W",
-//     resave: false,
-//     saveUninitialized: true,
-//     users_schema : '',
-//     cookie: { secure: !true }
-// }));
-// app.options('*', corsHandler); // include before other routes
 
 var PORT = process.env.PORT || 3002;
 
@@ -68,10 +60,14 @@ app.get('/',function(req,res){
 	res.redirect("/home");
 })
 app.get('/home',function(req,res){
-	console.log(req.session.uname);
+		console.log("Home"+req.session.roleName);
+	if(req.session.role=="admin"){
+		res.redirect("/feedback/myissues")
+	}
 	res.render('landing',{
 		'pageTitle' : 'Home Page',
-		'session' :  req.session && req.session.uname
+		'session' :  req.session && req.session.uname,
+		'roleName' : req.session && req.session.role
 	})
 })
 
@@ -79,7 +75,8 @@ app.get('/signup',function(req,res){
 	console.log("SignUp Page");
 	res.render('signup',{
 		'pageTitle' : 'Signup',
-		'session' :  req.session && req.session.uname
+		'session' :  req.session && req.session.uname,
+		'roleName' : req.session && req.session.role
 	})
 })
 
@@ -87,7 +84,8 @@ app.get('/login',function(req,res){
 	console.log("login Page");
 	res.render('login',{
 		'pageTitle' : 'Login',
-		'session' :  req.session && req.session.uname
+		'session' :  req.session && req.session.uname,
+		'roleName' : req.session && req.session.role
 	})
 })
 
@@ -100,7 +98,8 @@ app.get('/feedback',function(req,res){
 	res.render('feedback',{
 		'pageTitle' : 'Feedback',
 		'session' :  req.session && req.session.uname,
-		'collegeName' :  req.session && req.session.cname
+		'collegeName' :  req.session && req.session.cname,
+		'roleName' : req.session && req.session.role
 	})
 })
 
@@ -113,7 +112,8 @@ app.get('/feedback/createissue',function(req,res){
 	res.render('feedback',{
 		'pageTitle' : 'createissue',
 		'session' :  req.session && req.session.uname,
-		'collegeName' :  req.session && req.session.cname
+		'collegeName' :  req.session && req.session.cname,
+		'roleName' : req.session && req.session.role
 	})
 })
 
@@ -126,14 +126,15 @@ app.get('/feedback/myissues',function(req,res){
 	    consumerId : req.session.consumerId
 	}
 	var resDatas;
-	if(req.session.isAdmin){
+	if(req.session.role=="admin"){
 		schema.Complaint.find({}, function(err, datas) {
 		    if (!err){ 
-		        // console.log(datas);
+		        console.log("Admin"+datas);
 		        resDatas = datas;
 		        res.render('feedback',{
 					'pageTitle' : 'myissues',
 					'session' :  req.session && req.session.uname,
+					'roleName' : req.session && req.session.role,
 					'collegeName' :  req.session && req.session.cname,
 					'collections' : resDatas
 				})
@@ -143,19 +144,20 @@ app.get('/feedback/myissues',function(req,res){
 	}
 	else{
 		schema.Complaint.find({'consumerId':userData.consumerId}).exec(function(err,datas){
-			console.log("1st trigger:"+datas);
+			// console.log("1st trigger:"+datas);
 			resDatas = datas;
 			// response.send(datas)
 			res.render('feedback',{
 				'pageTitle' : 'myissues',
 				'session' :  req.session && req.session.uname,
 				'collegeName' :  req.session && req.session.cname,
+				'roleName' : req.session && req.session.role,
 				'collections' : resDatas
 			})
 		})
 		
 	}
-	console.log("2nd trigger:"+resDatas);
+	// console.log("2nd trigger:"+resDatas);
 	
 })
 
@@ -188,10 +190,11 @@ app.post('/signUp',function(req,res,next){
 				if(err) return next(err);
 				req.session.uname  = userData.Name;
 				req.session.cname = userData.Institute;
-				req.session.consumerId = newUser._id
-				console.log(newUser)
+				req.session.consumerId = newUser._id;
+				req.session.role = newUser.roles[0];
+				// console.log(newUser)
 				return res.send(newUser);
-				console.log(newUser)
+				// console.log(newUser)
 			})
 		}
 	})
@@ -207,12 +210,13 @@ app.post('/login',function(req,res,next){
 			req.session.uname = existingUser.Name;
 			req.session.cname = existingUser.Institute;
 			req.session.consumerId = existingUser._id;
+			req.session.role = existingUser.roles[0];
 			req.session.isAdmin = false;
 			if(existingUser.roles.indexOf('admin')!=-1){
-				return res.send("you are a admin user");
 				req.session.isAdmin = true;
+				return res.send("you are a admin user");
 			}
-			console.log(existingUser)
+			// console.log(existingUser)
 			return res.send(existingUser)
 		}
 		else{
@@ -223,21 +227,27 @@ app.post('/login',function(req,res,next){
 
 app.get('/logout', function (req, res) {
 	// console.log("Log Out Suucessfully")
-   req.session.uname = null;
+   	req.session.uname = null;
+   	req.session.cname = null;
+	req.session.consumerId = null;
+	req.session.role = null;
+	
+
    res.redirect("/home");
 });
 
 
 app.post('/submitNewTicket',function(req,res,next){
-	console.log(req.query.id);
+	// console.log(req.query.id);
 	var userData = {
 		Category: req.body.category,
 	    SubCategory: req.body.subCategory,
 	    EnteredQuery: req.body.enteredQuery,
+	    Institute : req.session.cname,
 	    Status: req.body.status,
 	    consumerId : req.session.consumerId || req.body.consumerId
 	}
-	console.log(userData)
+	// console.log(userData)
 	schema.Complaint.create(userData,function(err){
 		if(err) return next(err);
 		// console.log(req.session.uname)
@@ -247,7 +257,7 @@ app.post('/submitNewTicket',function(req,res,next){
 
 app.get('/getSubmittedTicket',function(req,response,next){
 		// console.log("getSubmittedTicket fn triggered")
-		console.log(req.query.id);
+		// console.log(req.query.id);
 		var userData = {
 		    consumerId : req.session.consumerId || req.query.id
 		}
@@ -255,7 +265,7 @@ app.get('/getSubmittedTicket',function(req,response,next){
 		if(req.session.isAdmin){
 			schema.Complaint.find({}, function(err, datas) {
 			    if (!err){ 
-			        console.log(datas);
+			        // console.log(datas);
 			        resDatas = datas;
 			        // response.send(datas)
 			    } else {throw err;}
@@ -263,7 +273,7 @@ app.get('/getSubmittedTicket',function(req,response,next){
 		}
 		else{
 			schema.Complaint.find({'consumerId':userData.consumerId}).exec(function(err,datas){
-				console.log(datas);
+				// console.log(datas);
 				resDatas = datas;
 				// response.send(datas)
 			})

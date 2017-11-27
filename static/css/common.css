@@ -486,7 +486,7 @@ h5 {
     position: absolute;
     width: 100%;
     top: 0;
-    background: #036088;
+    background: rgba(3, 96, 136,.8);
   }
 
   .nav--logo {
@@ -1766,7 +1766,7 @@ footer p{
 }
 .styles__buttons__tV5DY a[href="/logout"]{
   text-decoration: none;
-  color: #3e719f;
+  color: #91cbf0;
 }
 
 .nav--signup.Signup{
@@ -2014,4 +2014,18 @@ width: 100%;
 }
 .complaints-list form>input.submit-ticket{
     background-color: #31ABED;
+}
+.nav--button-container{
+    position:relative;
+}
+.role-name{
+    position:absolute;
+    left: 12px;
+    bottom: -18px;
+    right: 0;
+    margin: 0 auto;
+    text-align: center;
+    color: #ffffff;
+    text-transform: capitalize;
+    font-size: 14px;
 }
