@@ -2029,3 +2029,6 @@ width: 100%;
     text-transform: capitalize;
     font-size: 14px;
 }
+.dropdown:hover>.dropdown-menu {
+  display: block;
+}

@@ -63,7 +63,9 @@
 										<td><a href="">{{this._id}}</a></td>
 										<td>{{dateFormat this.createdAt "MM/d"}}</td>
 										<td>{{this.Category}}</td>
-										<td>{{this.EnteredQuery}}</td>
+										{{#each this.EnteredQuery}}
+										<td><span>{{this.rolename}}: </span>{{this.thoughts}}</td>
+										{{/each}}
 										<td>
 										{{#ifvalue ../roleName equals="admin"}}
 											<select class="custom-select dropdown">
@@ -121,8 +123,7 @@
 			<li class="text-list">
 				<label>Enter Your Queries<span>:</span></label>
 				<div>
-					<textarea disabled="" class="ticket-field">
-					</textarea>
+					<textarea placeholder="type here." disabled="" class="ticket-field"></textarea>
 				</div>
 			</li>
 			<li  class="dropdown-list">

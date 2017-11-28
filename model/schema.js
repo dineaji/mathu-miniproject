@@ -18,7 +18,10 @@ var RegSchema = new Schema({
 var CompSchema = new Schema({
     Category: String,
     SubCategory: String,
-    EnteredQuery: String,
+    EnteredQuery: [{
+        'rolename' : String,
+        'thoughts' : String
+    }],
     Status: String,
     consumerId : String,
     Institute : String,

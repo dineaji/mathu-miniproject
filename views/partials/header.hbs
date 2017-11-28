@@ -10,8 +10,12 @@
 				<li class="nav--item-main styles__link__2UPsf">
 					<a class="nav--link-main" href="">About</a>
 				</li>
-				<li class="nav--item-main styles__link__2UPsf">
-					<a class="nav--link-main" href="/feedback">Feedback</a>
+				<li class="nav--item-main styles__link__2UPsf dropdown">
+					<a class="nav--link-main dropdown-toggle" href="/feedback" role="button" aria-haspopup="true" aria-expanded="false">Feedback</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+			          <a class="dropdown-item" href="/feedback/createissue">Create Issue</a>
+			          <a class="dropdown-item" href="/feedback/myissues">My Issues</a>
+			        </div>
 				</li>
 			</ul>
 		{{/ifvalue}}

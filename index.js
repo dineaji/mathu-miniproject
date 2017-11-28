@@ -113,7 +113,7 @@ app.get('/feedback/createissue',function(req,res){
 		'pageTitle' : 'createissue',
 		'session' :  req.session && req.session.uname,
 		'collegeName' :  req.session && req.session.cname,
-		'roleName' : req.session && req.session.role
+		'roleName' : req.session && req.session.role,
 	})
 })
 
@@ -160,6 +160,8 @@ app.get('/feedback/myissues',function(req,res){
 	// console.log("2nd trigger:"+resDatas);
 	
 })
+
+// collection.update({_id:"123"}, {author:"Jessica", title:"Mongo facts"});
 
 // After SignUp
 app.post('/signUp',function(req,res,next){
@@ -242,10 +244,13 @@ app.post('/submitNewTicket',function(req,res,next){
 	var userData = {
 		Category: req.body.category,
 	    SubCategory: req.body.subCategory,
-	    EnteredQuery: req.body.enteredQuery,
 	    Institute : req.session.cname,
 	    Status: req.body.status,
-	    consumerId : req.session.consumerId || req.body.consumerId
+	    consumerId : req.session.consumerId || req.body.consumerId,
+	    EnteredQuery: [{
+	        'rolename' :  req.session && req.session.role || 'user',
+	        'thoughts' : req.body.enteredQuery
+	    }]
 	}
 	// console.log(userData)
 	schema.Complaint.create(userData,function(err){
