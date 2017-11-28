@@ -104,6 +104,7 @@ app.get('/feedback',function(req,res){
 })
 
 app.get('/feedback/createissue',function(req,res){
+	console.log("feedback createissue page");
 	if(!req.session.uname){
 		res.redirect("/login");
 		return;
@@ -118,6 +119,7 @@ app.get('/feedback/createissue',function(req,res){
 })
 
 app.get('/feedback/myissues',function(req,res){
+	console.log("feedback myissues page");
 	if(!req.session.uname){
 		res.redirect("/login");
 		return;
@@ -159,6 +161,25 @@ app.get('/feedback/myissues',function(req,res){
 	}
 	// console.log("2nd trigger:"+resDatas);
 	
+})
+
+// issue detail
+app.get('/feedback/myissues/detail/:id',function(req,res){
+	console.log("feedback detail page");
+	schema.Complaint.find({'_id':req.params.id}).exec(function(err,datas){
+			// console.log("1st trigger:"+datas);
+		resDatas = datas;
+		res.render('feedback-detail',{
+			'pageTitle' : 'issueDetail',
+			'session' :  req.session && req.session.uname,
+			'collegeName' :  req.session && req.session.cname,
+			'roleName' : req.session && req.session.role,
+			'collections' : resDatas
+		})
+		// res.send(datas);
+		// response.send(datas)
+	})
+	// res.send(req.params.id);
 })
 
 // collection.update({_id:"123"}, {author:"Jessica", title:"Mongo facts"});

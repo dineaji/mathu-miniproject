@@ -26,6 +26,12 @@
 	        },{
 	        	'elem' : '.submit-ticket',
 	        	'func' : 'submitComplaint'
+	        },{
+	        	'elem' : '.Comments-container .add-comments',
+	        	'func' : 'addCommentBox'
+	        },{
+	        	'elem' : '.submit-comments',
+	        	'func' : 'submitCommentBox'
 	        }]
 	        return obj;
 	    },
@@ -215,6 +221,19 @@
 	    		self.fillComplaintDropdown(res);
 	    		self.feedbackCategoryDatas = res;
 	    	})
+	    },
+	    addCommentBox : function(elem){
+	    	var container = $("#comments-list");
+	    	var templateId = $("#comments-list-template").html();
+	    	var template = _.template(templateId);
+			 
+			$(container).append(template({}));
+			$(elem).hide();
+
+	    },
+	    submitCommentBox : function(elem){
+	    	$(elem).hide(); 
+	    	$(".Comments-container .add-comments").show();
 	    },
 	    init : function(){
             if(typeof $!="function" || typeof _!="function") return;

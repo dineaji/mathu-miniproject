@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+{{>headinclude}}
+
+<body class = "container-fluid">
+	<div class="page-root">
+	  {{>header}}
+	  <div role="main" class="styles__layoutWrapper__nEkzc">
+	  	 <div class="create-complaints">
+	  	 	{{#each collections}}
+		  	<div class="tab-list">
+		  	 	<ul>
+			  	 	<li class="{{pageTitle}}">
+		  	 			Created Id : <span style="color: #00728f;">{{this._id}}</span></a>
+		  	 		</li>
+		  	 	</ul>
+		  	 </div>
+		  	 <div class="detail-container">
+		  	 	<div>
+		  	 		<h2><span>Details</span></h2>
+		  	 		<ul>
+		  	 			<li>
+		  	 				<label>College Name <span>:</span></label>
+		  	 				<div>
+		  	 					<span>{{this.Institute}}</span>
+		  	 				</div>
+		  	 			</li>
+		  	 			<li>
+		  	 				<label>Status <span>:</span></label>
+		  	 				<div>
+		  	 					<span>{{this.Status}}</span>
+		  	 				</div>
+		  	 			</li>
+		  	 			<li>
+		  	 				<label>Category <span>:</span></label>
+		  	 				<div>
+		  	 					<span>{{this.Category}}</span>
+		  	 				</div>
+		  	 			</li>
+		  	 			<li>
+		  	 				<label>Sub Category <span>:</span></label>
+		  	 				<div>
+		  	 					<span>{{this.SubCategory}}</span>
+		  	 				</div>
+		  	 			</li>
+		  	 			<li>
+		  	 				<label>Created <span>:</span></label>
+		  	 				<div>
+		  	 					<span>{{dateFormat this.createdAt "MM/ddd/YY"}}</span>
+		  	 				</div>
+		  	 			</li>
+		  	 			<li>
+		  	 				<label>Updated <span>:</span></label>
+		  	 				<div>
+		  	 					<span>{{dateFormat this.updatedAt "MM/ddd/YY"}}</span>
+		  	 				</div>
+		  	 			</li>
+		  	 		</ul>
+	  	 		</div>
+	  	 		<div class="Comments-container">
+	  	 			<h2><span>Comments</span></h2>
+	  	 			<ul id="comments-list">
+	  	 				{{#each this.EnteredQuery}}
+	  	 					<li class="{{this.rolename}}">
+	  	 						<span><a>{{this.rolename}}</a> added a comment - {{dateFormat this.createdAt "MM/ddd/YY"}}</span>
+	  	 						<div>
+		  	 						<span>{{this.thoughts}}</span>
+		  	 						<input type="hidden" value="{{this._id}}" name="">
+	  	 						</div>
+	  	 					</li>
+	  	 				{{/each}}
+	  	 			</ul>
+	  	 			<button class="btn btn-secondary active add-comments" role="button" aria-pressed="true">Comment</button>
+	  	 		</div>
+		  	 </div>
+		  	 {{/each}}
+	  	</div>
+	  </div>
+
+	  	<script type="text/javascript" id="comments-list-template">
+	  		<li class="">
+				<textarea placeholder="your comments.."></textarea>
+				<div>
+					<button class="btn btn-primary submit-comments" type="submit">Add</button>
+				</div>
+			</li>
+	  	</script>
+		<script>
+			var pageName = "{{pageTitle}}"
+		</script>
+	  {{>footer}}
+	</div>
+</body>
+
+</html>

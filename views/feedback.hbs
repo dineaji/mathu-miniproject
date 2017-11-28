@@ -60,7 +60,7 @@
 										{{#ifvalue ../roleName equals="admin"}}
 											<td>{{this.Institute}}</td>
 										{{/ifvalue}}
-										<td><a href="">{{this._id}}</a></td>
+										<td><a href="/feedback/myissues/detail/{{this._id}}">{{this._id}}</a></td>
 										<td>{{dateFormat this.createdAt "MM/d"}}</td>
 										<td>{{this.Category}}</td>
 										{{#each this.EnteredQuery}}

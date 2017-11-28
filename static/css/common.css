@@ -1962,6 +1962,12 @@ width: 100%;
   border-radius: 5px;
   margin: 2em 0;
 }
+#mycomplaints-container td a{
+  color: #00728f;
+  font-weight:bold;
+  text-transform:unset;
+  font-size: 14px;
+}
 #mycomplaints-container.empty-message{
     width: 100%;
     min-height: 300px;
@@ -2031,4 +2037,116 @@ width: 100%;
 }
 .dropdown:hover>.dropdown-menu {
   display: block;
+}
+.detail-container{
+  padding:0 1em;
+  color: #333;
+  overflow: hidden;
+  margin: 1em 0;
+}
+.detail-container>div{
+  overflow:hidden;
+  display: inline-block;
+  min-width: 40%;
+}
+.detail-container ul{
+  padding:0;
+  float: left;
+  width: 100%;
+}
+.detail-container h2{
+  color: #000;
+  font-size:14px;
+  margin:1em 0;
+  position:relative;
+}
+.detail-container h2 span{
+  background-color:#fffefa;
+  position:relative;
+  z-index:1;
+  padding-right:15px;
+
+}
+.detail-container h2:after{
+  content:"";
+  position:absolute;
+  width:100%;
+  height:1px;
+  background-color:#ccc;
+  left:0;
+  top:0;
+  bottom:0;
+  margin:auto;
+  right:0;
+}
+.detail-container ul li{
+  display: block;
+  overflow: hidden;
+  margin: 1em 0;
+}
+.Comments-container ul li{
+  padding-bottom:1em;
+  border-bottom: 1px solid #ccc;
+  background-color: #f5f5f5;
+  border-left: 5px solid #f5f5f5;
+  padding-left: 5px;
+  padding: 1em;
+}
+.Comments-container ul li[class=""]{
+  background-color: transparent;
+  padding: 0;
+  margin-top: 20px;
+}
+.Comments-container ul li textarea{
+  width:100%;
+  background-color:#fff;
+  opacity: 1;
+  padding: 10px;
+  height: 110px;
+}
+.Comments-container ul li.user{
+  border-left-color: #3572b0;
+}
+.Comments-container ul li.admin{
+  border-left-color:#edb023;
+}
+.Comments-container .btn:before{
+    content: "\f27b";
+    display: inline-block;
+    font-family: "mlab-icons";
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    margin-right: 6px;
+    line-height: 1;
+    text-decoration: inherit;
+    text-rendering: optimizeLegibility;
+    text-transform: none;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+}
+.Comments-container ul li a{
+  color: #00728f !important;
+  font-weight:bold;
+  text-transform:capitalize;
+}
+.Comments-container ul li div{
+  padding:1em 0;
+}
+.detail-container ul li:after{
+  content:none;
+}
+.detail-container label{
+  color:#707070;
+  float:left;
+}
+.detail-container label+div{
+  float: left;
+}
+.detail-container div.Comments-container{
+  overflow:hidden;
+  float:right;
+  /*   clear: left; */
+  margin: 0;
 }
