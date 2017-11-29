@@ -226,14 +226,50 @@
 	    	var container = $("#comments-list");
 	    	var templateId = $("#comments-list-template").html();
 	    	var template = _.template(templateId);
+	    	var roleName = $("#role-name").val();
 			 
 			$(container).append(template({}));
 			$(elem).hide();
 
 	    },
 	    submitCommentBox : function(elem){
-	    	$(elem).hide(); 
-	    	$(".Comments-container .add-comments").show();
+	    	var self = this;
+    		var container = $("#comments-list");
+	    	var templateId = $("#comments-list-template").html();
+	    	var template = _.template(templateId);
+	    	var roleName = $("#role-name").val();
+	    	var checktextfield = $("#comment-area").val();
+	    	var ticketId = $("#created-id").html().trim();
+	    	var status = $("#status-data").val();
+
+	    	if(checktextfield==""){
+	    		$.notify("Please fill it and then try..", 'warn');
+	    	}
+    		else{
+		    	$(elem).hide(); 
+		    	$(".Comments-container .add-comments").show();
+    			$(".dynamic-list").remove();
+			 
+				$(container).append(template({
+					role : roleName,
+					input : checktextfield
+				}));
+				this.feedback = {
+		    		name: "feedbackData",
+		    		domain : function(){
+		              return apiconfig.apiDomainConfig(this.name)  
+		            }
+		    	}
+		    	apiconfig.updateComplaintDatas = {
+		    		id : ticketId,
+		    		status : status,
+		    		role : roleName,
+		    		enteredQuery : checktextfield
+		    	}
+		    	this.ajaxDataFormat(this.feedback.domain(),apiconfig.apiMethodConfig(this.feedback.name,'updateComment'),function(res){
+		    		$.notify("Posted..", 'Success');
+		    	})
+    		}
 	    },
 	    init : function(){
             if(typeof $!="function" || typeof _!="function") return;

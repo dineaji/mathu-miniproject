@@ -6,6 +6,7 @@
 	  {{>header}}
 	  <div role="main" class="styles__layoutWrapper__nEkzc">
 	  	 <div class="create-complaints">
+	  	 	<input type="hidden" id="role-name" value="{{roleName}}" name="">
 		  	<div class="tab-list">
 		  	 	<ul>
 		  		{{#ifvalue roleName equals="admin"}}
@@ -64,7 +65,9 @@
 										<td>{{dateFormat this.createdAt "MM/d"}}</td>
 										<td>{{this.Category}}</td>
 										{{#each this.EnteredQuery}}
-										<td><span>{{this.rolename}}: </span>{{this.thoughts}}</td>
+											{{#if @last}}
+												<td><span>{{this.rolename}}: </span>{{this.thoughts}}</td>
+											{{/if}} 
 										{{/each}}
 										<td>
 										{{#ifvalue ../roleName equals="admin"}}

@@ -9,6 +9,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var http = require("request");
 var dateFormat = require('dateformat');
+var _ = require('lodash');
 // var session = require('express-session');
 
 var db = require("./model/db");
@@ -55,38 +56,76 @@ hbs.registerHelper("ifvalue", function(conditional, options) {
     }
 });
 
+function renderParams(req,pageTitle,datas){
+	return {
+			'pageTitle' : getPageTitle(pageTitle),
+			'session' :  req.session && req.session.uname,
+			'roleName' : req.session && req.session.role,
+			'collections' : datas!=undefined ? datas : 0,
+			'collegeName' :  req.session && req.session.cname,
+		}
+}
+function getPageTitle(fileName){
+	var pageTitle = "";
+	switch(fileName){
+		case 'home':
+			pageTitle = "Home Page";
+			break;
+		case "signup":
+			pageTitle = "SignUp Page";
+			break;
+		case "login":
+			pageTitle = "Login Page";
+			break;
+		case "feedback":
+			pageTitle = "Feedback";
+			break;
+		case "createissue":
+			pageTitle = "createissue";
+			break;
+		case "myissues":
+			pageTitle = "myissues";
+			break;
+		case "detail":
+			pageTitle = "issueDetail";
+			break;
+	}
+	return pageTitle;
+}
+
 app.get('/',function(req,res){
 	console.log("redirecting...")
 	res.redirect("/home");
 })
+
 app.get('/home',function(req,res){
-		console.log("Home"+req.session.roleName);
-	if(req.session.role=="admin"){
-		res.redirect("/feedback/myissues")
+	var data = {};
+	if(req.session && req.session.role){
+		if(req.session.role=="admin"){
+			schema.Complaint.find({}, function(err, datas) {
+				datas = _(datas).groupBy('Status').map((items, name) => ({ name, count: items.length })).value()
+				res.render('landing',renderParams(req,'home',datas));
+			})
+		} else{
+			schema.Complaint.find({'consumerId':req.session.consumerId}).exec(function(err,datas){
+				data.length = _.size(datas)
+				data.obj = _(datas).groupBy('Status').map((items, name) => ({ name, count: items.length })).value();
+				console.log(data)
+				res.render('landing',renderParams(req,'home',data));
+			})
+		}
+	} else{
+		console.log(renderParams(req,'home'))
+		res.render('landing',renderParams(req,'home'));
 	}
-	res.render('landing',{
-		'pageTitle' : 'Home Page',
-		'session' :  req.session && req.session.uname,
-		'roleName' : req.session && req.session.role
-	})
 })
 
 app.get('/signup',function(req,res){
-	console.log("SignUp Page");
-	res.render('signup',{
-		'pageTitle' : 'Signup',
-		'session' :  req.session && req.session.uname,
-		'roleName' : req.session && req.session.role
-	})
+	res.render('signup',renderParams(req,'signup'));
 })
 
 app.get('/login',function(req,res){
-	console.log("login Page");
-	res.render('login',{
-		'pageTitle' : 'Login',
-		'session' :  req.session && req.session.uname,
-		'roleName' : req.session && req.session.role
-	})
+	res.render('login',renderParams(req,'login'));
 })
 
 app.get('/feedback',function(req,res){
@@ -94,13 +133,7 @@ app.get('/feedback',function(req,res){
 		res.redirect("/login");
 		return;
 	}
-	console.log("feedback Page");
-	res.render('feedback',{
-		'pageTitle' : 'Feedback',
-		'session' :  req.session && req.session.uname,
-		'collegeName' :  req.session && req.session.cname,
-		'roleName' : req.session && req.session.role
-	})
+	res.render('feedback',renderParams(req,'feedback'));
 })
 
 app.get('/feedback/createissue',function(req,res){
@@ -109,13 +142,7 @@ app.get('/feedback/createissue',function(req,res){
 		res.redirect("/login");
 		return;
 	}
-	console.log("createissue Page");
-	res.render('feedback',{
-		'pageTitle' : 'createissue',
-		'session' :  req.session && req.session.uname,
-		'collegeName' :  req.session && req.session.cname,
-		'roleName' : req.session && req.session.role,
-	})
+	res.render('feedback',renderParams(req,'createissue'));
 })
 
 app.get('/feedback/myissues',function(req,res){
@@ -127,59 +154,27 @@ app.get('/feedback/myissues',function(req,res){
 	var userData = {
 	    consumerId : req.session.consumerId
 	}
-	var resDatas;
 	if(req.session.role=="admin"){
 		schema.Complaint.find({}, function(err, datas) {
 		    if (!err){ 
-		        console.log("Admin"+datas);
-		        resDatas = datas;
-		        res.render('feedback',{
-					'pageTitle' : 'myissues',
-					'session' :  req.session && req.session.uname,
-					'roleName' : req.session && req.session.role,
-					'collegeName' :  req.session && req.session.cname,
-					'collections' : resDatas
-				})
-		        // response.send(datas)
+		        res.render('feedback',renderParams(req,'myissues',datas));
 		    } else {throw err;}
 		});
 	}
 	else{
 		schema.Complaint.find({'consumerId':userData.consumerId}).exec(function(err,datas){
-			// console.log("1st trigger:"+datas);
-			resDatas = datas;
-			// response.send(datas)
-			res.render('feedback',{
-				'pageTitle' : 'myissues',
-				'session' :  req.session && req.session.uname,
-				'collegeName' :  req.session && req.session.cname,
-				'roleName' : req.session && req.session.role,
-				'collections' : resDatas
-			})
+			res.render('feedback',renderParams(req,'myissues',datas));
 		})
 		
 	}
-	// console.log("2nd trigger:"+resDatas);
-	
 })
 
 // issue detail
 app.get('/feedback/myissues/detail/:id',function(req,res){
 	console.log("feedback detail page");
 	schema.Complaint.find({'_id':req.params.id}).exec(function(err,datas){
-			// console.log("1st trigger:"+datas);
-		resDatas = datas;
-		res.render('feedback-detail',{
-			'pageTitle' : 'issueDetail',
-			'session' :  req.session && req.session.uname,
-			'collegeName' :  req.session && req.session.cname,
-			'roleName' : req.session && req.session.role,
-			'collections' : resDatas
-		})
-		// res.send(datas);
-		// response.send(datas)
+		res.render('feedback-detail',renderParams(req,'detail',datas));
 	})
-	// res.send(req.params.id);
 })
 
 // collection.update({_id:"123"}, {author:"Jessica", title:"Mongo facts"});
@@ -284,30 +279,46 @@ app.post('/submitNewTicket',function(req,res,next){
 app.get('/getSubmittedTicket',function(req,response,next){
 		// console.log("getSubmittedTicket fn triggered")
 		// console.log(req.query.id);
-		var userData = {
-		    consumerId : req.session.consumerId || req.query.id
-		}
-		var resDatas;
-		if(req.session.isAdmin){
-			schema.Complaint.find({}, function(err, datas) {
-			    if (!err){ 
-			        // console.log(datas);
-			        resDatas = datas;
-			        // response.send(datas)
-			    } else {throw err;}
-			});
-		}
-		else{
-			schema.Complaint.find({'consumerId':userData.consumerId}).exec(function(err,datas){
-				// console.log(datas);
-				resDatas = datas;
-				// response.send(datas)
-			})
-			
-		}
+	var userData = {
+	    consumerId : req.session.consumerId || req.query.id
+	}
+	var resDatas;
+	if(req.session.isAdmin){
+		schema.Complaint.find({}, function(err, datas) {
+		    if (!err){ 
+		        // console.log(datas);
+		        resDatas = datas;
+		        // response.send(datas)
+		    } else {throw err;}
+		});
+	}
+	else{
+		schema.Complaint.find({'consumerId':userData.consumerId}).exec(function(err,datas){
+			// console.log(datas);
+			resDatas = datas;
+			// response.send(datas)
+		})
 		
-	})
+	}
+	
+})
 
+app.post('/updateTicket',function(req,res,next){
+	console.log(req.body);
+	var data = {
+		_id : req.body.id,
+	}
+	schema.Complaint.findByIdAndUpdate(
+		req.body.id,
+	    {$push: {"EnteredQuery": {'rolename' :  req.body.role ,'thoughts' : req.body.enteredQuery}},$set : {Status : req.body.status}},
+	    {safe: true, upsert: true},
+	    function(err, model) {
+	        console.log(err);
+	    }
+	   )
+	res.send("Successfully Posted");
+	
+});
 
 app.listen(PORT, onListen);
 

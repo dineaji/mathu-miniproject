@@ -19,6 +19,7 @@
     "express-session": "^1.15.6",
     "handlebars-dateformat": "^1.1.1",
     "hbs": "^4.0.1",
+    "lodash": "^4.17.4",
     "mongoose": "^4.13.1",
     "mongoose-role": "^2.0.1",
     "request": "^2.83.0"

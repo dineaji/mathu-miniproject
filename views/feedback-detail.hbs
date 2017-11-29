@@ -6,56 +6,68 @@
 	  {{>header}}
 	  <div role="main" class="styles__layoutWrapper__nEkzc">
 	  	 <div class="create-complaints">
+	  	 	<input type="hidden" id="role-name" value="{{roleName}}" name="">
 	  	 	{{#each collections}}
 		  	<div class="tab-list">
 		  	 	<ul>
 			  	 	<li class="{{pageTitle}}">
-		  	 			Created Id : <span style="color: #00728f;">{{this._id}}</span></a>
+		  	 			Created Id : <span style="color: #00728f;" id="created-id">{{this._id}}</span></a>
 		  	 		</li>
 		  	 	</ul>
 		  	 </div>
 		  	 <div class="detail-container">
 		  	 	<div>
-		  	 		<h2><span>Details</span></h2>
-		  	 		<ul>
-		  	 			<li>
-		  	 				<label>College Name <span>:</span></label>
-		  	 				<div>
-		  	 					<span>{{this.Institute}}</span>
-		  	 				</div>
-		  	 			</li>
-		  	 			<li>
-		  	 				<label>Status <span>:</span></label>
-		  	 				<div>
-		  	 					<span>{{this.Status}}</span>
-		  	 				</div>
-		  	 			</li>
-		  	 			<li>
-		  	 				<label>Category <span>:</span></label>
-		  	 				<div>
-		  	 					<span>{{this.Category}}</span>
-		  	 				</div>
-		  	 			</li>
-		  	 			<li>
-		  	 				<label>Sub Category <span>:</span></label>
-		  	 				<div>
-		  	 					<span>{{this.SubCategory}}</span>
-		  	 				</div>
-		  	 			</li>
-		  	 			<li>
-		  	 				<label>Created <span>:</span></label>
-		  	 				<div>
-		  	 					<span>{{dateFormat this.createdAt "MM/ddd/YY"}}</span>
-		  	 				</div>
-		  	 			</li>
-		  	 			<li>
-		  	 				<label>Updated <span>:</span></label>
-		  	 				<div>
-		  	 					<span>{{dateFormat this.updatedAt "MM/ddd/YY"}}</span>
-		  	 				</div>
-		  	 			</li>
-		  	 		</ul>
-	  	 		</div>
+			  	 	<div>
+			  	 		<h2><span>Details</span></h2>
+			  	 		<ul>
+			  	 			<li>
+			  	 				<label>College Name <span>:</span></label>
+			  	 				<div>
+			  	 					<span>{{this.Institute}}</span>
+			  	 				</div>
+			  	 			</li>
+			  	 			<li>
+			  	 				<label>Status <span>:</span></label>
+			  	 				<div>
+			  	 					<select id="status-data">
+			  	 						<option selected>{{this.Status}}</option>
+			  	 						<option>In Progress</option>
+			  	 						<option>Resolved</option>
+			  	 					</select>
+			  	 				</div>
+			  	 			</li>
+			  	 			<li>
+			  	 				<label>Category <span>:</span></label>
+			  	 				<div>
+			  	 					<span>{{this.Category}}</span>
+			  	 				</div>
+			  	 			</li>
+			  	 			<li>
+			  	 				<label>Sub Category <span>:</span></label>
+			  	 				<div>
+			  	 					<span>{{this.SubCategory}}</span>
+			  	 				</div>
+			  	 			</li>
+			  	 		</ul>
+		  	 		</div>
+		  	 		<div>
+			  	 		<h2><span>Dates</span></h2>
+			  	 		<ul>
+			  	 			<li>
+			  	 				<label>Created <span>:</span></label>
+			  	 				<div>
+			  	 					<span>{{dateFormat this.createdAt "MM/ddd/YY"}}</span>
+			  	 				</div>
+			  	 			</li>
+			  	 			<li>
+			  	 				<label>Updated <span>:</span></label>
+			  	 				<div>
+			  	 					<span>{{dateFormat this.updatedAt "MM/ddd/YY"}}</span>
+			  	 				</div>
+			  	 			</li>
+			  	 		</ul>
+		  	 		</div>
+		  	 	</div>
 	  	 		<div class="Comments-container">
 	  	 			<h2><span>Comments</span></h2>
 	  	 			<ul id="comments-list">
@@ -77,12 +89,22 @@
 	  </div>
 
 	  	<script type="text/javascript" id="comments-list-template">
-	  		<li class="">
-				<textarea placeholder="your comments.."></textarea>
-				<div>
-					<button class="btn btn-primary submit-comments" type="submit">Add</button>
-				</div>
-			</li>
+	  		<% if(typeof role== "undefined" || _.isEmpty(role)){ %>
+		  		<li class="dynamic-list">
+					<textarea id="comment-area" placeholder="your comments.."></textarea>
+					<div>
+						<button class="btn btn-primary submit-comments" type="submit">Add</button>
+					</div>
+				</li>
+	  		<% } else { %>
+	  			<li class="<%= role %>">
+					<span><a><%= role %></a> added a comment </span>
+					<div>
+						<span><%= input %></span>
+						<input type="hidden" value="" name="">
+					</div>
+				</li>
+	  		<% } %>
 	  	</script>
 		<script>
 			var pageName = "{{pageTitle}}"

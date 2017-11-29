@@ -57,6 +57,12 @@
                     "body" : "",
                     "type" : "get",
                     "params" : ""
+                },
+                updateComment : {
+                    "name" : "/updateTicket",
+                    "body" : this.updateComplaintDatas,
+                    "type" : "POST",
+                    "params" : ""
                 }
             }
         }
