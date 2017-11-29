@@ -10,29 +10,61 @@
 	  			<div class="card-wrapper">
 	  				<div>
 				  		<div class="bg-primary total-bg">
-				  			<a href="">
-				  				<span>Total Tickets: {{collections.length}}</span>
+				  			<a href="/feedback/myissues">
+				  				<p class="txt-sm">Total Tickets</p> 
+				  				<p class="txt-lg">0{{collections.length}}</p>
 				  			</a>
+				  			<i class="fa fa-globe fa-4x" aria-hidden="true"></i>
+				  			<svg width="270" height="50"><g><path d="M0,25Q19.5,19.291666666666664,22.5,19.374999999999996C27,19.499999999999996,40.5,25.0625,45,26.25S63,30.875,67.5,31.25S85.5,30.625,90,30S108,24.25,112.5,25S130.5,35.625,135,37.5S153,43.75,157.5,43.75S175.5,38.4375,180,37.5S198,35.3125,202.5,34.375S220.5,27.8125,225,28.125S243,37.8125,247.5,37.5Q250.5,37.291666666666664,270,25L270,50Q250.5,50,247.5,50C243,50,229.5,50,225,50S207,50,202.5,50S184.5,50,180,50S162,50,157.5,50S139.5,50,135,50S117,50,112.5,50S94.5,50,90,50S72,50,67.5,50S49.5,50,45,50S27,50,22.5,50Q19.5,50,0,50Z" class="area" fill="rgba(255,255,255,0.5)"></path></g></svg>
 				  		</div>
 			  		</div>
 			  		{{#each collections.obj}}
 			  			<div>
 					  		<div class="bg-success {{this.name}}-bg">
 					  			<a href="">
-					  				<span>{{this.name}} Tickets: {{this.count}}</span>
+					  				<p class="txt-sm">{{this.name}} Tickets </p>
+					  				<p class="txt-lg">0{{this.count}}</p>
 					  			</a>
+					  			{{#if @first}}
+					  			<i class="fa fa-list-alt  fa-4x" aria-hidden="true"></i>
+					  			<svg width="270" height="50"><g><path d="M0,25Q19.5,21.458333333333332,22.5,21.875C27,22.5,40.5,30.9375,45,31.25S63,26.25,67.5,25S85.5,18.75,90,18.75S108,23.125,112.5,25S130.5,35.625,135,37.5S153,43.75,157.5,43.75S175.5,38.4375,180,37.5S198,35.3125,202.5,34.375S220.5,27.8125,225,28.125S243,37.8125,247.5,37.5Q250.5,37.291666666666664,270,25L270,50Q250.5,50,247.5,50C243,50,229.5,50,225,50S207,50,202.5,50S184.5,50,180,50S162,50,157.5,50S139.5,50,135,50S117,50,112.5,50S94.5,50,90,50S72,50,67.5,50S49.5,50,45,50S27,50,22.5,50Q19.5,50,0,50Z" class="area" fill="rgba(255,255,255,0.5)"></path></g></svg>
+					  			{{else}}
+					  			<i class="fa fa-opera fa-4x" aria-hidden="true"></i>
+					  			<svg width="270" height="50"><g><path d="M0,25Q19.5,40.541666666666664,22.5,40.625C27,40.75,40.5,27.8125,45,26.25S63,24.625,67.5,25S85.5,30.625,90,30S108,20.8125,112.5,18.75S130.5,10.625,135,9.375S153,5,157.5,6.25S175.5,20.9375,180,21.875S198,16.5625,202.5,15.625S220.5,12.1875,225,12.5S243,17.5,247.5,18.75Q250.5,19.583333333333332,270,25L270,50Q250.5,50,247.5,50C243,50,229.5,50,225,50S207,50,202.5,50S184.5,50,180,50S162,50,157.5,50S139.5,50,135,50S117,50,112.5,50S94.5,50,90,50S72,50,67.5,50S49.5,50,45,50S27,50,22.5,50Q19.5,50,0,50Z" class="area" fill="rgba(255,255,255,0.5)"></path></g></svg>
+					  			{{/if}}
 					  		</div>
 				  		</div>
 			  		{{/each}}
-			  		<!-- <div>
+			  		<div>
 				  		<div class="bg-info">
-				  			<span>Resolved Tickets</span>
+				  			<a href="">
+				  				<p class="txt-sm">Closed Tickets </p>
+				  				<p class="txt-lg">00</p>
+				  			</a>
+				  			<i class="fa fa-snowflake-o   fa-4x" aria-hidden="true"></i>
+				  			<svg width="270" height="50"><g><path d="M0,25Q19.5,21.458333333333332,22.5,21.875C27,22.5,40.5,30.9375,45,31.25S63,26.25,67.5,25S85.5,18.75,90,18.75S108,23.125,112.5,25S130.5,35.625,135,37.5S153,43.75,157.5,43.75S175.5,38.4375,180,37.5S198,35.3125,202.5,34.375S220.5,27.8125,225,28.125S243,37.8125,247.5,37.5Q250.5,37.291666666666664,270,25L270,50Q250.5,50,247.5,50C243,50,229.5,50,225,50S207,50,202.5,50S184.5,50,180,50S162,50,157.5,50S139.5,50,135,50S117,50,112.5,50S94.5,50,90,50S72,50,67.5,50S49.5,50,45,50S27,50,22.5,50Q19.5,50,0,50Z" class="area" fill="rgba(255,255,255,0.5)"></path></g></svg>
 				  		</div>
-			  		</div> -->
+			  		</div>
 			  		<div>
 				  		<div class="bg-secondary">
 				  		</div>
 			  		</div>
+			  	</div>
+			  	<div class="feedback-home">
+			  		<ul>
+			  			{{#ifvalue roleName equals="admin"}}
+			  	 			<li class="track-request {{pageTitle}}">
+				  	 			<a href="/feedback/myissues">All Issues</a>
+				  	 		</li>
+			  	 		{{else}}
+				  			<li class="raise-request {{pageTitle}}">
+				  	 			<a href="/feedback/createissue">Raise Request</a>
+				  	 		</li>
+				  	 		<li class="track-request {{pageTitle}}">
+				  	 			<a href="/feedback/myissues">My Issues</a>
+				  	 		</li>
+			  	 		{{/ifvalue}}
+			  		</ul>
 			  	</div>
 	  		</div>
 	  	{{else}}
@@ -51,6 +83,7 @@
 		    </div>
 	  	{{/if}}
 	  </div>
+	  	  <!-- {{>footer}} -->
 	</div>
 </body>
 

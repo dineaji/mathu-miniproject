@@ -103,14 +103,15 @@ app.get('/home',function(req,res){
 	if(req.session && req.session.role){
 		if(req.session.role=="admin"){
 			schema.Complaint.find({}, function(err, datas) {
-				datas = _(datas).groupBy('Status').map((items, name) => ({ name, count: items.length })).value()
-				res.render('landing',renderParams(req,'home',datas));
+				data.length = _.size(datas)
+				data.obj = _(datas).groupBy('Status').map((items, name) => ({ name, count: items.length })).value();
+				res.render('landing',renderParams(req,'home',data));
 			})
 		} else{
 			schema.Complaint.find({'consumerId':req.session.consumerId}).exec(function(err,datas){
 				data.length = _.size(datas)
 				data.obj = _(datas).groupBy('Status').map((items, name) => ({ name, count: items.length })).value();
-				console.log(data)
+-				console.log(data)
 				res.render('landing',renderParams(req,'home',data));
 			})
 		}
