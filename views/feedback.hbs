@@ -56,7 +56,7 @@
 							</thead>
 							<tbody>
 								{{#each collections}}
-									<tr>
+									<tr data-row="{{this.Status}}">
 										<td>{{inc @index}}</td>
 										{{#ifvalue ../roleName equals="admin"}}
 											<td>{{this.Institute}}</td>
@@ -66,7 +66,7 @@
 										<td>{{this.Category}}</td>
 										{{#each this.EnteredQuery}}
 											{{#if @last}}
-												<td><span>{{this.rolename}}: </span>{{this.thoughts}}</td>
+												<td>{{this.thoughts}}</td>
 											{{/if}} 
 										{{/each}}
 										<td>
@@ -133,7 +133,7 @@
 				<label>Status<span>:</span></label>
 				<div>
 					<select class="custom-select dropdown" disabled="">
-						<option selected>NEW</option>
+						<option selected>New</option>
 						<option>Closed</option>
 						<option>Re-Open</option>
 					</select>

@@ -10,6 +10,7 @@ var session = require('express-session');
 var http = require("request");
 var dateFormat = require('dateformat');
 var _ = require('lodash');
+var mailer = require('nodemailer');
 // var session = require('express-session');
 
 var db = require("./model/db");
@@ -56,14 +57,47 @@ hbs.registerHelper("ifvalue", function(conditional, options) {
     }
 });
 
+
+
+// create reusable transporter object using the default SMTP transport
+let transporter = mailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: "dineajinodemailer@gmail.com",
+        pass: "27smss106"
+    }
+});
+
+// setup email data with unicode symbols
+let mailOptions = {
+    from: '"Complaint Forum - TU 👻" <test@thiruvalluvarUniversity.com>', // sender address
+    to: 'dineaji@gmail.com', // list of receivers
+    subject: 'Hello ✔', // Subject line
+    text: 'Hello world?', // plain text body
+    html: '<b>Hello world?</b>' // html body
+};
+
+// send mail with defined transport object
+function sendEmail(){
+	console.log(mailOptions);
+	transporter.sendMail(mailOptions, (error, info) => {
+	    if (error) {
+	        return console.log(error);
+	    }
+	    console.log('Message sent: %s', info.messageId);
+	    // Preview only available when sending through an Ethereal account
+	    console.log('Preview URL: %s', mailer.getTestMessageUrl(info));
+	});
+}
+
 function renderParams(req,pageTitle,datas){
 	return {
-			'pageTitle' : getPageTitle(pageTitle),
-			'session' :  req.session && req.session.uname,
-			'roleName' : req.session && req.session.role,
-			'collections' : datas!=undefined ? datas : 0,
-			'collegeName' :  req.session && req.session.cname,
-		}
+		'pageTitle' : getPageTitle(pageTitle),
+		'session' :  req.session && req.session.uname,
+		'roleName' : req.session && req.session.role,
+		'collections' : datas!=undefined ? datas : 0,
+		'collegeName' :  req.session && req.session.cname,
+	}
 }
 function getPageTitle(fileName){
 	var pageTitle = "";
@@ -171,6 +205,25 @@ app.get('/feedback/myissues',function(req,res){
 })
 
 // issue detail
+app.get('/feedback/myissues/status/:id',function(req,res){
+	var userData = {
+	    consumerId : req.session.consumerId
+	}
+	if(req.session.role=="admin"){
+		schema.Complaint.find({'Status':req.params.id}).exec(function(err,datas){
+			res.render('feedback',renderParams(req,'myissues',datas));
+			console.log(datas);
+		})
+	} else{
+		schema.Complaint.find({'consumerId':userData.consumerId,'Status':req.params.id}).exec(function(err,datas){
+			res.render('feedback',renderParams(req,'myissues',datas));
+			console.log(datas);
+		})
+		
+	}
+})
+
+// issue detail
 app.get('/feedback/myissues/detail/:id',function(req,res){
 	console.log("feedback detail page");
 	schema.Complaint.find({'_id':req.params.id}).exec(function(err,datas){
@@ -211,6 +264,12 @@ app.post('/signUp',function(req,res,next){
 				req.session.cname = userData.Institute;
 				req.session.consumerId = newUser._id;
 				req.session.role = newUser.roles[0];
+
+				mailOptions.to = newUser.Email;
+				mailOptions.subject = "Welcome to Thiruvalluvar University";
+				mailOptions.text = mailOptions.html = "Thanks for Signing Up. You'll get all the updates when you create  / update any issue";
+
+				sendEmail();
 				// console.log(newUser)
 				return res.send(newUser);
 				// console.log(newUser)

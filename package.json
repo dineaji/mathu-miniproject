@@ -22,6 +22,7 @@
     "lodash": "^4.17.4",
     "mongoose": "^4.13.1",
     "mongoose-role": "^2.0.1",
+    "nodemailer": "^4.4.0",
     "request": "^2.83.0"
   }
 }

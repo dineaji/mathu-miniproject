@@ -1166,8 +1166,8 @@ h5 {
   transition: 0.1s transform ease-out, 0.1s -webkit-transform ease-out;
   -webkit-transform-origin: bottom left;
   transform-origin: bottom left;
-  -webkit-transform: translate3d(0, 2.3rem, 0);
-  transform: translate3d(0, 1.1rem, 0);
+  -webkit-transform: translate3d(0, 1.8rem, 0);
+  transform: translate3d(0, 1.81rem, 0);
   position: absolute;
   bottom: 100%;
   display: block;
@@ -1752,7 +1752,7 @@ div svg polygon, div svg path {
 
 footer p{
     text-align: center;
-    color: #e4e6e6;
+    color: #333;
     font-size: 11px;
 }
 
@@ -1772,7 +1772,7 @@ footer p{
   color: #91cbf0;
 }
 
-.nav--signup.Signup{
+.nav--signup.SignUp{
   display: none;
 }
 
@@ -1793,6 +1793,10 @@ footer p{
     margin-bottom: 80px;
     /* background: #fff; */
     max-width: 1075px;
+}
+div.create-complaints.loading:after {
+  background-color: rgba(245, 245, 245,.5);
+  background-image: url(/images/loading_icon.gif);
 }
 .create-complaints ul{
   display: block;
@@ -1965,6 +1969,21 @@ width: 100%;
   border-radius: 5px;
   margin: 2em 0;
 }
+#mycomplaints-container tr[data-row="Resolved"]{
+  background-color: #c7bebe61;
+  position: relative;
+}
+#mycomplaints-container tr[data-row="Resolved"] td:first-child:before{
+  content:"";
+  position:absolute;
+  border-left: none;
+  height: 54px;
+  left: 16px;
+  width: 3px;
+  background: #2a9e0e;
+  margin-top: -10px;
+  border-radius: 10px;
+}
 #mycomplaints-container td a{
   color: #00728f;
   font-weight:bold;
@@ -1983,6 +2002,26 @@ width: 100%;
   list-style:none;
   margin:1em 0;
   padding: 1em;
+}
+#new-complaints-container li.loading>div{
+  position:relative;
+}
+#new-complaints-container li.loading>div select,
+#new-complaints-container li.loading>div input{
+  opacity:.5;
+}
+.create-complaints.loading:after,
+#new-complaints-container li.loading>div:after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  bottom:0;
+  background-image: url('/images/ts_loading_icon.gif');
+  background-position: center center;
+  background-repeat: no-repeat;
+  z-index: 1111;
 }
 #new-complaints-container li:last-child{
   margin-bottom:0;

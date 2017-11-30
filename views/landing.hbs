@@ -21,7 +21,7 @@
 			  		{{#each collections.obj}}
 			  			<div>
 					  		<div class="bg-success {{this.name}}-bg">
-					  			<a href="">
+					  			<a href="/feedback/myissues/status/{{this.name}}">
 					  				<p class="txt-sm">{{this.name}} Tickets </p>
 					  				<p class="txt-lg">0{{this.count}}</p>
 					  			</a>
@@ -37,7 +37,7 @@
 			  		{{/each}}
 			  		<div>
 				  		<div class="bg-info">
-				  			<a href="">
+				  			<a>
 				  				<p class="txt-sm">Closed Tickets </p>
 				  				<p class="txt-lg">00</p>
 				  			</a>

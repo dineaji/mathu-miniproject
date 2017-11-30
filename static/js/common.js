@@ -174,7 +174,7 @@
 	    		category : arr[0],
                 subCategory : arr[1],
                 enteredQuery : arr[2] || 'No Text',
-                status : arr[3] || 'NEW'
+                status : arr[3] || 'Open'
             }
             this.feedback = {
 	            name : "feedbackData",
@@ -186,8 +186,13 @@
 	        this.ajaxDataFormat(this.feedback.domain(),apiconfig.apiMethodConfig(this.feedback.name,'newComplaint'),function(res){
 	        	console.log(res)
 	        	if(res=="Successfully Posted"){
-	        		$.notify("Successfully Created", 'Success');
-	        		$("form")[0].reset();
+	        		$(".create-complaints").addClass("loading");
+	        		setTimeout(function(){
+		        		$(".create-complaints").removeClass("loading");
+		        		$.notify("Successfully Created", 'success');
+		        		$("form")[0].reset();
+
+	        		},1000)
 	        	}
 	        });
 	    },
@@ -267,7 +272,11 @@
 		    		enteredQuery : checktextfield
 		    	}
 		    	this.ajaxDataFormat(this.feedback.domain(),apiconfig.apiMethodConfig(this.feedback.name,'updateComment'),function(res){
-		    		$.notify("Posted..", 'Success');
+		    		$(".create-complaints").addClass("loading");
+	        		setTimeout(function(){
+		        		$(".create-complaints").removeClass("loading");
+		    			$.notify("Submitted Succesfully..", 'success');
+	        		},1000)
 		    	})
     		}
 	    },
@@ -316,15 +325,23 @@ $(".dropdown-container").on("change",".custom-select.dropdown",function(evt){
 		var parentElem = $(this).closest('li');
 		var nextSelectedElem = parentElem.next(".dropdown-list").find(".custom-select.dropdown");
 	if(selectedArrays!=undefined && nextSelectedElem.length){
+		nextSelectedElem.closest('li').addClass('loading');
 		nextSelectedElem.html('');
 		nextSelectedElem.append("<option selected>select your queries</option>")
 		for(var i=0;i<selectedArrays.length;i++){
 			nextSelectedElem.append('<option>'+selectedArrays[i]+'</option>');
 		}
 		nextSelectedElem.removeAttr('disabled');
+		setTimeout(function(){
+			nextSelectedElem.closest('li').removeClass('loading');
+		},500)
 	}
 	else if(parentElem.next(".text-list").length){
+		parentElem.next('li').addClass('loading');
 		parentElem.next(".text-list").find("textarea").removeAttr("disabled");
+		setTimeout(function(){
+			parentElem.next('li').removeClass('loading');
+		},500)
 	}
 
 })
