@@ -33,7 +33,7 @@ body {
   padding: 0 !important;
   background-color: #f9fafc;
 }
-body.Home:not(.user .admin) {
+body.Home:not(.user):not(.admin) {
   background-color: #262b30;
 }
 ul {
