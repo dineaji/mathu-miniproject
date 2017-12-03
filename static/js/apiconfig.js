@@ -7,8 +7,8 @@
     var config = {
     apiDomainConfig : function(domainName){
         var obj = {
-            SignUpRegistration :  $("#environment").val() == "development" ? "http://localhost:3002" : '/',
-            feedbackData :  $("#environment").val() == "development" ? "http://localhost:3002" : '/',
+            SignUpRegistration :  $("#environment").val() == "development" ? "http://localhost:3002" : '',
+            feedbackData :  $("#environment").val() == "development" ? "http://localhost:3002" : '',
         }
         return domainName ? obj[domainName] : obj;
     },
