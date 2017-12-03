@@ -3,11 +3,12 @@
     to your API Ajax call
 */
 (function(global,$){
+    var env = $("#environment").val();
     var config = {
     apiDomainConfig : function(domainName){
         var obj = {
-            SignUpRegistration :  "http://localhost:3002",
-            feedbackData :  "http://localhost:3002",
+            SignUpRegistration :  $("#environment").val() == "development" ? "http://localhost:3002" : '/',
+            feedbackData :  $("#environment").val() == "development" ? "http://localhost:3002" : '/',
         }
         return domainName ? obj[domainName] : obj;
     },
