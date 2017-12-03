@@ -21,8 +21,15 @@ var corsOptions = {
   // optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
 }
 
-var feedbackUrl = "http://localhost:3002/feedbackDatas.json";
-var categoryUrl = "http://localhost:3002/complaintCategory.json";
+var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+if(env=="development"){
+	var feedbackUrl = "http://localhost:3002/feedbackDatas.json";
+	var categoryUrl = "http://localhost:3002/complaintCategory.json";
+} else{
+	var feedbackUrl = "/feedbackDatas.json";
+	var categoryUrl = "/complaintCategory.json";
+}
 // app.use(cors(corsOptions))
 app.use(cors())
 app.use(bodyParser.json());
@@ -97,6 +104,7 @@ function renderParams(req,pageTitle,datas){
 		'roleName' : req.session && req.session.role,
 		'collections' : datas!=undefined ? datas : 0,
 		'collegeName' :  req.session && req.session.cname,
+		'env' : env
 	}
 }
 function getPageTitle(fileName){
