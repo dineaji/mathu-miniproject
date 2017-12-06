@@ -160,7 +160,8 @@ app.get( '/auth/google/callback',
 }));
 
 app.get('/auth/google/success', function(req,res){
-	console.log("Successfully Loggedin From Google")
+	console.log("Successfully Loggedin From Google");
+	res.redirect("/home");
 });
 
 app.get('/auth/google/failure', function(err){
