@@ -1,6 +1,9 @@
 console.log("started")
 
 var express = require("express");
+
+var passport = require("./apis/g-signin.js");
+
 var cors = require("cors");
 var hbs = require("hbs");
 var router = express.Router();
@@ -35,7 +38,14 @@ app.use(cors())
 app.use(bodyParser.json());
 
 app.use(cookieParser());
-app.use(session({ secret: "sss" }));
+app.use(session({
+ secret: "sss" ,
+ resave: true,
+ saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 var PORT = process.env.PORT || 3002;
 
@@ -134,6 +144,28 @@ function getPageTitle(fileName){
 	}
 	return pageTitle;
 }
+
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope:
+  	[ 'https://www.googleapis.com/auth/plus.login',
+  	  'https://www.googleapis.com/auth/plus.profile.emails.read' ] }
+));
+
+
+app.get( '/auth/google/callback',
+	passport.authenticate( 'google', {
+		successRedirect: '/auth/google/success',
+		failureRedirect: '/auth/google/failure'
+}));
+
+app.get('/auth/google/success', function(req,res){
+	console.log("Successfully Loggedin From Google")
+});
+
+app.get('/auth/google/failure', function(err){
+	console.log("failure Loggedin From Google")
+});
 
 app.get('/',function(req,res){
 	console.log("redirecting...")

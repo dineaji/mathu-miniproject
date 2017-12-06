@@ -13,7 +13,7 @@ if(env == "development"){
 else{
 	url="mongodb://uname:pwd@ds157325.mlab.com:57325/signupregistration";
 }
-mongoose.connect(url);
+mongoose.connect(url , { useMongoClient: true });
 
 var db = mongoose.connection;
 db.on('error',function(err){
