@@ -161,6 +161,13 @@ app.get( '/auth/google/callback',
 
 app.get('/auth/google/success', function(req,res){
 	console.log("Successfully Loggedin From Google");
+	req.session.uname = req.user.Name || 'user';
+	  req.session.cname = req.user.Institute || '';
+	  req.session.consumerId = req.user._id;
+	  req.session.role = 'user';
+	  req.session.isAdmin = false;
+	console.log(req.session);
+	// console.log(res)
 	res.redirect("/home");
 });
 

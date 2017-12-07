@@ -13,7 +13,7 @@ routes.use(session({
  resave: true,
  saveUninitialized: true
 }));
-
+var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var dateFormat = require('dateformat');
 
 var passport = require('passport'),
@@ -21,7 +21,7 @@ var passport = require('passport'),
  
 var CLIENT_ID = '609469981923-v9lqmmh20t5ghi829bth3flnqgna8au8.apps.googleusercontent.com';
 var CLIENT_SECRET = '0KEh7DqxXeilFRfiLaRAq6YS';
-var REDIRECT_URL = 'http://localhost:3002/auth/google/callback';
+var REDIRECT_URL = env=="development" ? 'http://localhost:3002/auth/google/callback' : '/auth/google/callback';
 
 passport.use(new GoogleStrategy({
     clientID: CLIENT_ID,
@@ -32,9 +32,9 @@ passport.use(new GoogleStrategy({
   function(req, accessToken, refreshToken, profile, done) {
   	// console.log(profile.placesLived)
   	// console.log(profile.emails)
-    console.log(profile.id,
-                profile.displayName,
-                profile.emails)
+    // console.log(profile.id,
+    //             profile.displayName,
+    //             profile.emails)
 
 
 
@@ -44,11 +44,6 @@ passport.use(new GoogleStrategy({
 //   done(err,userData)
 // })
     schema.User.findOrCreate({ googleId: profile.id,obj:profile }, function (err, user) {
-      req.session.uname = profile.displayName;
-      req.session.cname = '';
-      req.session.consumerId = profile.id;
-      req.session.role = 'user';
-      req.session.isAdmin = false;
       return done(err, user);
     });
   }
@@ -56,7 +51,7 @@ passport.use(new GoogleStrategy({
 
 schema.User.findOrCreate = function findOrCreate(profile, cb){
     var userObj = new this();
-     console.log(profile.obj)
+     // console.log(profile.obj)
     this.findOne({_id : profile.obj.id},function(err,result){ 
         if(!result){
           userObj.Name =  profile.obj.displayName;
@@ -67,7 +62,7 @@ schema.User.findOrCreate = function findOrCreate(profile, cb){
           userObj.createdAt =  dateFormat(new Date(),"shortDate")
           userObj.roles =  ['user']
           userObj.username = profile.obj.displayName
-          console.log("userObj " + userObj)
+          // console.log("userObj " + userObj)
            userObj.save(cb);
         }else{
             cb(err,result);
