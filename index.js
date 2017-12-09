@@ -2,8 +2,8 @@ console.log("started")
 
 var express = require("express");
 
-var ip = require("ip");
-console.dir ( ip.address() );
+// var ip = require("ip");
+// console.dir ( ip.address() );
 
 var passport = require("./apis/g-signin.js");
 
