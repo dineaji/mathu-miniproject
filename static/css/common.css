@@ -1395,7 +1395,7 @@ h5 {
 }
 .Login .styles__container__17kSd {
     max-width: 767px;
-    min-height: 430px;
+    min-height: 500px;
 }
 .styles__container__17kSd {
     position: relative;
@@ -1557,9 +1557,10 @@ h5 {
   justify-content: space-between;
   }
   body.Login .styles__form__1nWb1 {
-  	  min-height: 0; 
-	  max-height: 300px;	
-	    max-width: 467px;
+  	  min-height: 0;
+  	  max-height: 324px;
+  	  max-width: 467px;
+  	  margin-top: 2rem;
   }
   @media only screen and (max-width: 480px) {
     .styles__form__1nWb1 {
@@ -2338,4 +2339,9 @@ a:hover .txt-lg{
 }
 .login-with-google a span{
   padding-left:15px;
+}
+
+.g-recaptcha{
+  padding:2rem;
+  padding-left: 4rem;
 }
