@@ -21,6 +21,7 @@
     "googleapis": "^23.0.0",
     "handlebars-dateformat": "^1.1.1",
     "hbs": "^4.0.1",
+    "ip": "^1.1.5",
     "lodash": "^4.17.4",
     "mongoose": "^4.13.1",
     "mongoose-role": "^2.0.1",
