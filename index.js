@@ -2,8 +2,8 @@ console.log("started")
 
 var express = require("express");
 
-// var ip = require("ip");
-// console.dir ( ip.address() );
+var ip = require("ip");
+console.dir ( ip.address() );
 
 var passport = require("./apis/g-signin.js");
 
@@ -29,10 +29,15 @@ var corsOptions = {
 
 var reCAPTCHA=require('recaptcha2')
 
+// recaptcha=new reCAPTCHA({
+//  siteKey:env=="development" ? '6LesVTwUAAAAAEAB57kznnAmbcDRZMcA4dot8U_v' : '6Le4VDwUAAAAALAALFgxg5W6RbGLMzPULs8mXDX9',
+//  secretKey:env=="development" ? '6LesVTwUAAAAAPOab7sDpObC53q1TKGabNwjhSwC' : '6Le4VDwUAAAAAKlGn804FiYFwc3MiTuEQUssZ06C'
+// })
+
 recaptcha=new reCAPTCHA({
- siteKey:env=="development" ? '6LesVTwUAAAAAEAB57kznnAmbcDRZMcA4dot8U_v' : '6Le4VDwUAAAAALAALFgxg5W6RbGLMzPULs8mXDX9',
- secretKey:env=="development" ? '6LesVTwUAAAAAPOab7sDpObC53q1TKGabNwjhSwC' : '6Le4VDwUAAAAAKlGn804FiYFwc3MiTuEQUssZ06C'
-})
+	siteKey:'6Le4VDwUAAAAALAALFgxg5W6RbGLMzPULs8mXDX9',
+	secretKey:'6Le4VDwUAAAAAKlGn804FiYFwc3MiTuEQUssZ06C'
+   })
 
 
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
