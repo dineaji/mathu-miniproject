@@ -37,7 +37,7 @@ var reCAPTCHA=require('recaptcha2')
 recaptcha=new reCAPTCHA({
 	siteKey:'6Le4VDwUAAAAALAALFgxg5W6RbGLMzPULs8mXDX9',
 	secretKey:'6Le4VDwUAAAAAKlGn804FiYFwc3MiTuEQUssZ06C'
-   })
+})
 
 
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -377,7 +377,7 @@ app.get('/validateCaptcha',function(req,res){
 	  // invalid
 	  res.json({formSubmit:false,errors:recaptcha.translateErrors(errorCodes)});// translate error codes to human readable text
 	});
-});
+})
 
 app.get('/logout', function (req, res) {
 	// console.log("Log Out Suucessfully")
