@@ -8,22 +8,37 @@
 	  	 <div class="create-complaints">
 	  	 	<input type="hidden" id="role-name" value="{{roleName}}" name="">
 	  	 	{{#each collections}}
-		  	<div class="tab-list">
-		  	 	<ul>
+			   <div class="header_bg container" style="border-bottom: 5px solid  #73ccf4;padding: 0;text-align: left;padding-left: 0em;padding-top: .5em;margin-left:0;">
+					<div class="cure">
+						<img style="margin-left:5px;" src="/images/gsd_logo.png" alt="">
+					</div>
+					<div id="raise" class="raise_req " style="font-size:15px;/* background-color:#fffefb; */">
+						<a href="/feedback/createissue">RAISE REQUEST
+						<span class="raise_req_norm raise_req_active"></span>
+						</a>
+					</div>
+					<div id="track" class="track_req border_color" onclick="" style="font-size:15px;font-weight: bold;">
+						<a href="/feedback/myissues">TRACK REQUEST
+							<span class="track_req_norm"></span>
+						</a>
+					</div>
+				</div>
+		  	{{!-- <div class="tab-list"> --}}
+		  	 	{{!-- <ul>
 			  	 	<li class="{{pageTitle}}">
 		  	 			Created Id : <span style="color: #00728f;" id="created-id">{{this._id}}</span></a>
 		  	 		</li>
-		  	 	</ul>
-		  	 </div>
+		  	 	</ul> --}}
+		  	 {{!-- </div> --}}
 		  	 <div class="detail-container">
 		  	 	<div>
 			  	 	<div>
 			  	 		<h2><span>Details</span></h2>
 			  	 		<ul>
 			  	 			<li>
-			  	 				<label>College Name <span>:</span></label>
+			  	 				<label>School <span>:</span></label>
 			  	 				<div>
-			  	 					<span>{{this.Institute}}</span>
+			  	 					<span>SRKMHS School</span>
 			  	 				</div>
 			  	 			</li>
 			  	 			<li>

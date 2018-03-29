@@ -215,7 +215,7 @@ app.get('/home',function(req,res){
 		}
 	} else{
 		console.log(renderParams(req,'home'))
-		res.render('landing',renderParams(req,'home'));
+		res.redirect("/login");
 	}
 })
 

@@ -1,89 +1,180 @@
-<!DOCTYPE html>
-{{>headinclude}}
+<!DOCTYPE html> {{>headinclude}}
 
-<body class = "container-fluid {{pageTitle}} {{roleName}}">
+<body class="container-fluid {{pageTitle}} {{roleName}}">
 	<div class="page-root">
-	  {{>header}}
-	  <div role="main" class="">
-	  	{{#if session }}
-	  		<div id="dashboard-container">
-	  			<div class="card-wrapper">
-	  				<div>
-				  		<div class="bg-primary total-bg">
-				  			<a href="/feedback/myissues">
-				  				<p class="txt-sm">Total Tickets</p> 
-				  				<p class="txt-lg">0{{collections.length}}</p>
-				  			</a>
-				  			<i class="fa fa-globe fa-4x" aria-hidden="true"></i>
-				  			<svg width="270" height="50"><g><path d="M0,25Q19.5,19.291666666666664,22.5,19.374999999999996C27,19.499999999999996,40.5,25.0625,45,26.25S63,30.875,67.5,31.25S85.5,30.625,90,30S108,24.25,112.5,25S130.5,35.625,135,37.5S153,43.75,157.5,43.75S175.5,38.4375,180,37.5S198,35.3125,202.5,34.375S220.5,27.8125,225,28.125S243,37.8125,247.5,37.5Q250.5,37.291666666666664,270,25L270,50Q250.5,50,247.5,50C243,50,229.5,50,225,50S207,50,202.5,50S184.5,50,180,50S162,50,157.5,50S139.5,50,135,50S117,50,112.5,50S94.5,50,90,50S72,50,67.5,50S49.5,50,45,50S27,50,22.5,50Q19.5,50,0,50Z" class="area" fill="rgba(255,255,255,0.5)"></path></g></svg>
-				  		</div>
-			  		</div>
-			  		{{#each collections.obj}}
-			  			<div>
-					  		<div class="bg-success {{this.name}}-bg">
-					  			<a href="/feedback/myissues/status/{{this.name}}">
-					  				<p class="txt-sm">{{this.name}} Tickets </p>
-					  				<p class="txt-lg">0{{this.count}}</p>
-					  			</a>
-					  			{{#if @first}}
-					  			<i class="fa fa-list-alt  fa-4x" aria-hidden="true"></i>
-					  			<svg width="270" height="50"><g><path d="M0,25Q19.5,21.458333333333332,22.5,21.875C27,22.5,40.5,30.9375,45,31.25S63,26.25,67.5,25S85.5,18.75,90,18.75S108,23.125,112.5,25S130.5,35.625,135,37.5S153,43.75,157.5,43.75S175.5,38.4375,180,37.5S198,35.3125,202.5,34.375S220.5,27.8125,225,28.125S243,37.8125,247.5,37.5Q250.5,37.291666666666664,270,25L270,50Q250.5,50,247.5,50C243,50,229.5,50,225,50S207,50,202.5,50S184.5,50,180,50S162,50,157.5,50S139.5,50,135,50S117,50,112.5,50S94.5,50,90,50S72,50,67.5,50S49.5,50,45,50S27,50,22.5,50Q19.5,50,0,50Z" class="area" fill="rgba(255,255,255,0.5)"></path></g></svg>
-					  			{{else}}
-					  			<i class="fa fa-opera fa-4x" aria-hidden="true"></i>
-					  			<svg width="270" height="50"><g><path d="M0,25Q19.5,40.541666666666664,22.5,40.625C27,40.75,40.5,27.8125,45,26.25S63,24.625,67.5,25S85.5,30.625,90,30S108,20.8125,112.5,18.75S130.5,10.625,135,9.375S153,5,157.5,6.25S175.5,20.9375,180,21.875S198,16.5625,202.5,15.625S220.5,12.1875,225,12.5S243,17.5,247.5,18.75Q250.5,19.583333333333332,270,25L270,50Q250.5,50,247.5,50C243,50,229.5,50,225,50S207,50,202.5,50S184.5,50,180,50S162,50,157.5,50S139.5,50,135,50S117,50,112.5,50S94.5,50,90,50S72,50,67.5,50S49.5,50,45,50S27,50,22.5,50Q19.5,50,0,50Z" class="area" fill="rgba(255,255,255,0.5)"></path></g></svg>
-					  			{{/if}}
-					  		</div>
-				  		</div>
-			  		{{/each}}
-			  		<div>
-				  		<div class="bg-info">
-				  			<a>
-				  				<p class="txt-sm">Closed Tickets </p>
-				  				<p class="txt-lg">00</p>
-				  			</a>
-				  			<i class="fa fa-snowflake-o   fa-4x" aria-hidden="true"></i>
-				  			<svg width="270" height="50"><g><path d="M0,25Q19.5,21.458333333333332,22.5,21.875C27,22.5,40.5,30.9375,45,31.25S63,26.25,67.5,25S85.5,18.75,90,18.75S108,23.125,112.5,25S130.5,35.625,135,37.5S153,43.75,157.5,43.75S175.5,38.4375,180,37.5S198,35.3125,202.5,34.375S220.5,27.8125,225,28.125S243,37.8125,247.5,37.5Q250.5,37.291666666666664,270,25L270,50Q250.5,50,247.5,50C243,50,229.5,50,225,50S207,50,202.5,50S184.5,50,180,50S162,50,157.5,50S139.5,50,135,50S117,50,112.5,50S94.5,50,90,50S72,50,67.5,50S49.5,50,45,50S27,50,22.5,50Q19.5,50,0,50Z" class="area" fill="rgba(255,255,255,0.5)"></path></g></svg>
-				  		</div>
-			  		</div>
-			  		<div>
-				  		<div class="bg-secondary">
-				  		</div>
-			  		</div>
-			  	</div>
-			  	<div class="feedback-home">
-			  		<ul>
-			  			{{#ifvalue roleName equals="admin"}}
-			  	 			<li class="track-request {{pageTitle}}">
-				  	 			<a href="/feedback/myissues">All Issues</a>
-				  	 		</li>
-			  	 		{{else}}
-				  			<li class="raise-request {{pageTitle}}">
-				  	 			<a href="/feedback/createissue">Raise Request</a>
-				  	 		</li>
-				  	 		<li class="track-request {{pageTitle}}">
-				  	 			<a href="/feedback/myissues">My Issues</a>
-				  	 		</li>
-			  	 		{{/ifvalue}}
-			  		</ul>
-			  	</div>
-	  		</div>
-	  	{{else}}
-		  	<div class="banner-imag">
-		    	<img src="/images/banner-16.png">
-		    	<a href="/signup" class="button button--icon">
+		{{>header}}
+		<div role="main" class="">
+			{{#if session }}
+			<div id="dashboard-container">
+				<div class="header_bg container" style="border-bottom: 5px solid  #73ccf4;padding: 0;text-align: left;padding-left: 3.8em;padding-top: .5em;">
+					<div class="cure">
+						<img style="margin-left:5px;" src="/images/gsd_logo.png" alt="">
+					</div>
+					<div id="raise" class="raise_req border_color" style="font-size:15px;/* background-color:#fffefb; */">
+						<a href="/feedback/createissue">RAISE REQUEST
+						<span class="raise_req_norm raise_req_active"></span>
+						</a>
+					</div>
+					<div id="track" class="track_req" onclick="Myassetbutton()" style="font-size:15px;font-weight: bold;">
+						<a href="/feedback/myissues">TRACK REQUEST
+							<span class="track_req_norm"></span>
+						</a>
+					</div>
+				</div>
+				{{!--
+				<div class="card-wrapper">
+					<div>
+						<div class="bg-primary total-bg">
+							<a href="/feedback/myissues">
+								<p class="txt-sm">Total Tickets</p>
+								<p class="txt-lg">0{{collections.length}}</p>
+							</a>
+							<i class="fa fa-globe fa-4x" aria-hidden="true"></i>
+							<svg width="270" height="50">
+								<g>
+									<path d="M0,25Q19.5,19.291666666666664,22.5,19.374999999999996C27,19.499999999999996,40.5,25.0625,45,26.25S63,30.875,67.5,31.25S85.5,30.625,90,30S108,24.25,112.5,25S130.5,35.625,135,37.5S153,43.75,157.5,43.75S175.5,38.4375,180,37.5S198,35.3125,202.5,34.375S220.5,27.8125,225,28.125S243,37.8125,247.5,37.5Q250.5,37.291666666666664,270,25L270,50Q250.5,50,247.5,50C243,50,229.5,50,225,50S207,50,202.5,50S184.5,50,180,50S162,50,157.5,50S139.5,50,135,50S117,50,112.5,50S94.5,50,90,50S72,50,67.5,50S49.5,50,45,50S27,50,22.5,50Q19.5,50,0,50Z"
+									 class="area" fill="rgba(255,255,255,0.5)"></path>
+								</g>
+							</svg>
+						</div>
+					</div>
+					{{#each collections.obj}}
+					<div>
+						<div class="bg-success {{this.name}}-bg">
+							<a href="/feedback/myissues/status/{{this.name}}">
+								<p class="txt-sm">{{this.name}} Tickets </p>
+								<p class="txt-lg">0{{this.count}}</p>
+							</a>
+							{{#if @first}}
+							<i class="fa fa-list-alt  fa-4x" aria-hidden="true"></i>
+							<svg width="270" height="50">
+								<g>
+									<path d="M0,25Q19.5,21.458333333333332,22.5,21.875C27,22.5,40.5,30.9375,45,31.25S63,26.25,67.5,25S85.5,18.75,90,18.75S108,23.125,112.5,25S130.5,35.625,135,37.5S153,43.75,157.5,43.75S175.5,38.4375,180,37.5S198,35.3125,202.5,34.375S220.5,27.8125,225,28.125S243,37.8125,247.5,37.5Q250.5,37.291666666666664,270,25L270,50Q250.5,50,247.5,50C243,50,229.5,50,225,50S207,50,202.5,50S184.5,50,180,50S162,50,157.5,50S139.5,50,135,50S117,50,112.5,50S94.5,50,90,50S72,50,67.5,50S49.5,50,45,50S27,50,22.5,50Q19.5,50,0,50Z"
+									 class="area" fill="rgba(255,255,255,0.5)"></path>
+								</g>
+							</svg>
+							{{else}}
+							<i class="fa fa-opera fa-4x" aria-hidden="true"></i>
+							<svg width="270" height="50">
+								<g>
+									<path d="M0,25Q19.5,40.541666666666664,22.5,40.625C27,40.75,40.5,27.8125,45,26.25S63,24.625,67.5,25S85.5,30.625,90,30S108,20.8125,112.5,18.75S130.5,10.625,135,9.375S153,5,157.5,6.25S175.5,20.9375,180,21.875S198,16.5625,202.5,15.625S220.5,12.1875,225,12.5S243,17.5,247.5,18.75Q250.5,19.583333333333332,270,25L270,50Q250.5,50,247.5,50C243,50,229.5,50,225,50S207,50,202.5,50S184.5,50,180,50S162,50,157.5,50S139.5,50,135,50S117,50,112.5,50S94.5,50,90,50S72,50,67.5,50S49.5,50,45,50S27,50,22.5,50Q19.5,50,0,50Z"
+									 class="area" fill="rgba(255,255,255,0.5)"></path>
+								</g>
+							</svg>
+							{{/if}}
+						</div>
+					</div>
+					{{/each}}
+					<div>
+						<div class="bg-info">
+							<a>
+								<p class="txt-sm">Closed Tickets </p>
+								<p class="txt-lg">00</p>
+							</a>
+							<i class="fa fa-snowflake-o   fa-4x" aria-hidden="true"></i>
+							<svg width="270" height="50">
+								<g>
+									<path d="M0,25Q19.5,21.458333333333332,22.5,21.875C27,22.5,40.5,30.9375,45,31.25S63,26.25,67.5,25S85.5,18.75,90,18.75S108,23.125,112.5,25S130.5,35.625,135,37.5S153,43.75,157.5,43.75S175.5,38.4375,180,37.5S198,35.3125,202.5,34.375S220.5,27.8125,225,28.125S243,37.8125,247.5,37.5Q250.5,37.291666666666664,270,25L270,50Q250.5,50,247.5,50C243,50,229.5,50,225,50S207,50,202.5,50S184.5,50,180,50S162,50,157.5,50S139.5,50,135,50S117,50,112.5,50S94.5,50,90,50S72,50,67.5,50S49.5,50,45,50S27,50,22.5,50Q19.5,50,0,50Z"
+									 class="area" fill="rgba(255,255,255,0.5)"></path>
+								</g>
+							</svg>
+						</div>
+					</div>
+					<div>
+						<div class="bg-secondary">
+						</div>
+					</div>
+				</div> --}}
+				<div class="search-page" style="width: 791px;  margin: 0 auto;;">
+
+
+
+					<div class="input-group-btn1" style="min-width: 60px;padding: 0;">
+						<div id="selectBox" class="form-control1 valid" name="charcount" onchange="countit(this)" style="height: 46.7px;background-color: rgb(109, 179, 63);color: #fff;margin-top: 177.5px;cursor:pointer;line-height: 2.428571;">
+							<label class="showselectedTower" style="
+    font-size: 13px;
+">All</label>
+
+							<img src="https://onecognizantcdn.cognizant.com/1697/Images/Asset_2.png" class="selectboximage">
+						</div>
+
+					</div>
+
+
+					<input class="search_btn ui-autocomplete-input form-controll" id="Searchbox" tabindex="1" onfocus="if(value=='Type your problem here...'){value=''}"
+					 onblur="if(value==''){value='Type your problem here...'}" value="Type your problem here..." name="SuggestionDesc" spellcheck="true"
+					 style="
+    /* height: 45px; */
+    padding: 14px 0px 14px 20px;
+    width: 660px;
+    /*font-style: normal;*/
+    font-size: 14px;
+    color: rgb(153, 153, 153);
+    top: 178px;
+    background-color: rgb(255, 254, 251);
+    /*border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;*/
+    border: 1px solid #999;
+    margin-left:-2px;
+    height:46px;
+    position:relative;
+    float: left;
+    " type="text" maxlength="100" placeholder="Type your problem here...." onclick="removePlaceholder(this)" oninput="keyupsearch()"
+					 autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true">
+
+
+					<div class="input-group-btn1" style="
+    float: left;
+">
+
+						<div class="btn1 btn-default1" id="searchimage" onclick='window.location="/feedback/createissue"' style="padding: 12px;font-family: Interstate-Regular;
+    font-weight: bold; margin-top: 174px; background: url(https://onecognizantcdn.cognizant.com/1697/Images/Search_Asset_New.png) no-repeat scroll 0 0 transparent;left:-5px;"></div>
+
+					</div>
+
+
+
+
+					<div id="test" style="display: none"></div>
+
+
+
+
+				</div>
+				{{!-- <div class="feedback-home">
+					<ul>
+						{{#ifvalue roleName equals="admin"}}
+						<li class="track-request {{pageTitle}}">
+							<a href="/feedback/myissues">All Issues</a>
+						</li>
+						{{else}}
+						<li class="raise-request {{pageTitle}}">
+							<a href="/feedback/createissue">Raise Request</a>
+						</li>
+						<li class="track-request {{pageTitle}}">
+							<a href="/feedback/myissues">My Issues</a>
+						</li>
+						{{/ifvalue}}
+					</ul>
+				</div> --}}
+			</div>
+			{{else}}
+			<div class="banner-imag">
+				<img src="/images/banner-16.png">
+				<a href="/signup" class="button button--icon">
 					<span>Get Started</span>
 					<svg width="18px" height="17px" viewBox="-1 0 18 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-				      <g>
-				          <polygon class="arrow" points="16.3746667 8.33860465 7.76133333 15.3067621 6.904 14.3175671 14.2906667 8.34246869 6.908 2.42790698 7.76 1.43613596"></polygon>
-				          <polygon class="arrow-fixed" points="16.3746667 8.33860465 7.76133333 15.3067621 6.904 14.3175671 14.2906667 8.34246869 6.908 2.42790698 7.76 1.43613596"></polygon>
-				          <path d="M-4.58892184e-16,0.56157424 L-4.58892184e-16,16.1929159 L9.708,8.33860465 L-1.64313008e-15,0.56157424 L-4.58892184e-16,0.56157424 Z M1.33333333,3.30246869 L7.62533333,8.34246869 L1.33333333,13.4327013 L1.33333333,3.30246869 L1.33333333,3.30246869 Z"></path>
-				      </g>
-				  </svg>
+						<g>
+							<polygon class="arrow" points="16.3746667 8.33860465 7.76133333 15.3067621 6.904 14.3175671 14.2906667 8.34246869 6.908 2.42790698 7.76 1.43613596"></polygon>
+							<polygon class="arrow-fixed" points="16.3746667 8.33860465 7.76133333 15.3067621 6.904 14.3175671 14.2906667 8.34246869 6.908 2.42790698 7.76 1.43613596"></polygon>
+							<path d="M-4.58892184e-16,0.56157424 L-4.58892184e-16,16.1929159 L9.708,8.33860465 L-1.64313008e-15,0.56157424 L-4.58892184e-16,0.56157424 Z M1.33333333,3.30246869 L7.62533333,8.34246869 L1.33333333,13.4327013 L1.33333333,3.30246869 L1.33333333,3.30246869 Z"></path>
+						</g>
+					</svg>
 				</a>
-		    </div>
-	  	{{/if}}
-	  </div>
-	  	  <!-- {{>footer}} -->
+			</div>
+			{{/if}}
+		</div>
+		<!-- {{>footer}} -->
 	</div>
 </body>
 

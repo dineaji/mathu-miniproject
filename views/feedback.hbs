@@ -7,8 +7,23 @@
 	  <div role="main" class="styles__layoutWrapper__nEkzc">
 	  	 <div class="create-complaints">
 	  	 	<input type="hidden" id="role-name" value="{{roleName}}" name="">
-		  	<div class="tab-list">
-		  	 	<ul>
+			   <div class="header_bg container" style="border-bottom: 5px solid  #73ccf4;padding: 0;text-align: left;padding-left: 0em;padding-top: .5em;margin-left:0;">
+					<div class="cure">
+						<img style="margin-left:5px;" src="/images/gsd_logo.png" alt="">
+					</div>
+					<div id="raise" class="raise_req border_color" style="font-size:15px;/* background-color:#fffefb; */">
+						<a href="/feedback/createissue">RAISE REQUEST
+						<span class="raise_req_norm raise_req_active"></span>
+						</a>
+					</div>
+					<div id="track" class="track_req" onclick="" style="font-size:15px;font-weight: bold;">
+						<a href="/feedback/myissues">TRACK REQUEST
+							<span class="track_req_norm"></span>
+						</a>
+					</div>
+				</div>
+		  	{{!-- <div class="tab-listsd"> --}}
+		  	 	{{!-- <ul>
 		  		{{#ifvalue roleName equals="admin"}}
 		  	 	<li class="track-request {{pageTitle}}">
 	  	 			<a href="/feedback/myissues">Raised Issues</a>
@@ -21,13 +36,13 @@
 		  	 			<a href="/feedback/myissues">My Issues</a>
 		  	 		</li>
 		  	 	{{/ifvalue}}
-		  	 	</ul>
-		  	 </div>
+		  	 	</ul> --}}
+		  	 {{!-- </div> --}}
 	  		<div class="complaints-list dropdown-container">
 		  	 	{{#if collegeName}}
 			  	 	{{#ifvalue roleName equals="admin"}}
 			  	 	{{else}}
-			  			<div class="collg-name">College : <span>{{collegeName}}</span></div>
+			  			<div class="collg-name">School : <span>SRKMHS School</span></div>
 			  	 	{{/ifvalue}}
 		  		{{/if}}
 	  			{{#ifvalue pageTitle equals='createissue'}}
